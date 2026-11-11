@@ -1,0 +1,29 @@
+{
+  "name": "CODED eCPPT Classroom",
+  "direction": "Blueprint Console",
+  "source": "https://coded-reels-playbook.vercel.app/",
+  "mode": "dark",
+  "tokens": {
+    "color": {
+      "bg": "#00081c", "bgDeep": "#00112f", "panel": "#0c1c3a", "panel2": "#12294f",
+      "panel3": "#16294a", "navy": "#14243f", "navy3": "#1b3055", "inset": "#081630",
+      "ink": "#ffffff", "ink1": "#e6edff", "ink2": "#cdd9f5", "muted": "#9fb2d4", "muted2": "#6f83a8",
+      "blue": "#004aa3", "blueBright": "#2f74d6", "blueSoft": "#6f9ce8", "blueText": "#9cc0ff", "indigo": "#3e50dd",
+      "evidence": "#6f9ce8", "attacker": "#f84b4b", "valid": "#5ad0a0", "caution": "#e0b45c", "cyan": "#79e2ec", "violet": "#c8adff",
+      "line": "rgba(255,255,255,.12)", "lineSoft": "rgba(255,255,255,.08)", "grid": "rgba(143,168,255,.055)",
+      "card": "rgba(255,255,255,.045)", "cardBorder": "rgba(255,255,255,.10)"
+    },
+    "font": {
+      "sans": "IBM Plex Sans, Helvetica Neue, Arial, system-ui, sans-serif",
+      "mono": "IBM Plex Mono, ui-monospace, SF Mono, Menlo, monospace",
+      "trackLabel": "0.18em", "trackTight": "-0.022em", "trackTighter": "-0.032em"
+    },
+    "radius": { "r1": "6px", "r2": "10px", "r3": "14px", "r4": "20px" },
+    "ease": "cubic-bezier(.22,.61,.36,1)"
+  },
+  "semanticRule": "Semantic colour is always paired with an icon and a text label; never colour alone.",
+  "exceptions": [
+    "Ruled grid background is the direction's measurement surface (graticule), kept faint.",
+    "A single hero gradient word mirrors the CODED reference hero; used once."
+  ]
+}
