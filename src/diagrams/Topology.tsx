@@ -7,17 +7,17 @@ import { I } from '../components/icons';
    corp.local, reachable only through WEB01's via — that via IS the pivot.
    Select a host to read reachability, name resolution, and credentials. */
 
-const LINKS: { a: string; b: string; top?: string; inner?: string; member?: string; label: string; lx: number; ly: number }[] = [
-  { a: 'kali', b: 'web01', top: 'M102 150H268', label: 'DMZ · 10.10.24.0/24', lx: 185, ly: 141 },
-  { a: 'web01', b: 'file02', top: 'M332 150H400', inner: 'M400 150H418L440 128V92L462 70H508', label: 'Inner · 172.16.8.25', lx: 470, ly: 60 },
-  { a: 'web01', b: 'dc01', top: 'M332 150H400', inner: 'M400 150H418L440 172V208L462 230H508', label: 'Inner · 172.16.8.10', lx: 470, ly: 256 },
-  { a: 'file02', b: 'dc01', member: 'M540 90V210', label: 'Domain membership', lx: 596, ly: 154 },
+const LINKS: { a: string; b: string; top?: string; inner?: string; member?: string; label?: string; lx: number; ly: number; anchor?: 'start' | 'middle' | 'end' }[] = [
+  { a: 'kali', b: 'web01', top: 'M102 150H268', label: '10.10.24.0/24', lx: 160, ly: 141, anchor: 'start' },
+  { a: 'web01', b: 'file02', top: 'M332 150H400', inner: 'M400 150H418L440 128V92L462 70H508', lx: 0, ly: 0 },
+  { a: 'web01', b: 'dc01', top: 'M332 150H400', inner: 'M400 150H418L440 172V208L462 230H508', lx: 0, ly: 0 },
+  { a: 'file02', b: 'dc01', member: 'M540 120V206', lx: 0, ly: 0 },
 ];
 
 export function Topology({ compact = false }: { compact?: boolean }) {
   const [sel, setSel] = useState('web01');
   const node = TOPO_NODES.find((n) => n.id === sel)!;
-  const layer: Record<string, string> = { attacker: 'Off-board · attacker', dmz: 'Top layer · DMZ', internal: 'Inner layer · corp.local' };
+  const layer: Record<string, string> = { attacker: 'Off-board · attacker', dmz: 'L1 top · DMZ', internal: 'L2 inner · corp.local' };
 
   return (
     <div className={`topo ${compact ? 'topo--compact' : ''}`}>
@@ -25,8 +25,8 @@ export function Topology({ compact = false }: { compact?: boolean }) {
         <svg viewBox="0 0 640 300" className="topo__svg" role="img" aria-label="Two-layer network board: attacker, WEB01 pivot via, FILE02 and DC01 on the inner layer">
           <rect x="150" y="22" width="262" height="256" rx="10" className="topo__layer" />
           <rect x="424" y="22" width="206" height="256" rx="10" className="topo__layer topo__layer--inner" />
-          <text x="160" y="40" className="topo__layerlbl">Top layer · DMZ</text>
-          <text x="434" y="40" className="topo__layerlbl topo__layerlbl--inner">Inner layer · corp.local</text>
+          <text x="160" y="40" className="topo__layerlbl">L1 top · DMZ</text>
+          <text x="434" y="40" className="topo__layerlbl topo__layerlbl--inner">L2 inner · corp.local</text>
 
           {LINKS.map((l, i) => {
             const on = sel === l.a || sel === l.b;
@@ -35,7 +35,7 @@ export function Topology({ compact = false }: { compact?: boolean }) {
                 {l.top && <path d={l.top} className="topo__t topo__t--top" />}
                 {l.inner && <path d={l.inner} className="topo__t topo__t--inner" />}
                 {l.member && <path d={l.member} className="topo__t topo__t--member" />}
-                {on && <text x={l.lx} y={l.ly} className="topo__netlbl">{l.label}</text>}
+                {on && l.label && <text x={l.lx} y={l.ly} className="topo__netlbl" textAnchor={l.anchor ?? 'middle'}>{l.label}</text>}
               </g>
             );
           })}
@@ -43,7 +43,7 @@ export function Topology({ compact = false }: { compact?: boolean }) {
           <g className="topo__via" aria-hidden>
             <circle cx="400" cy="150" r="7.5" />
             <circle cx="400" cy="150" r="2.6" className="topo__drill" />
-            <text x="400" y="176" className="topo__vialbl">VIA</text>
+            <text x="392" y="174" className="topo__vialbl" textAnchor="end">VIA</text>
           </g>
 
           {TOPO_NODES.map((n) => (

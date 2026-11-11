@@ -58,10 +58,9 @@ export function AttackChain({ initial = 0, compact = false }: { initial?: number
 
       <div className="net__panel" aria-live="polite">
         <div className="net__head">
-          <span className="silk silk--signal">Hop {String(step.n).padStart(2, '0')} / 06 · {i >= 3 ? 'inner layer' : 'top layer'}</span>
-          <span className="silk silk--dim">Week {step.week}</span>
+          <h3 className="net__title">{step.title}</h3>
+          <span className="silk silk--signal">Hop {String(step.n).padStart(2, '0')}/06 · {i >= 3 ? 'inner layer' : 'top layer'} · week {step.week}</span>
         </div>
-        <h3 className="net__title">{step.title}</h3>
         <div className="net__host"><I.server /> {step.host}</div>
         <dl className="net__rows">
           <div className="net__row"><dt className="silk silk--dim">Action</dt><dd>{step.action}</dd></div>

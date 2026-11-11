@@ -16,10 +16,10 @@
 .net__pad { width: 22px; height: 22px; border-radius: 4px; border: 2px solid var(--silk-line); background: var(--desk); margin-bottom: 6px; transition: background 0.2s, border-color 0.2s, box-shadow 0.2s; }
 .net__node.is-routed .net__pad { background: var(--copper); border-color: var(--copper); }
 .net__node.is-live .net__pad { background: var(--signal); border-color: var(--signal); box-shadow: 0 0 0 5px var(--signal-2); }
-.net__des { font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.12em; color: var(--muted-2); }
+.net__des { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.12em; color: var(--muted-2); }
 .net__stage { color: var(--ink-1); font-weight: 600; font-size: 0.95rem; line-height: 1.2; }
 .net__node.is-open .net__stage { color: var(--muted); }
-.net__status { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted-2); }
+.net__status { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted-2); }
 .net__node.is-routed .net__status { color: var(--copper); }
 .net__node.is-live .net__status { color: var(--signal); }
 .net__link { position: relative; flex: 1; height: 0; margin-top: 11px; min-width: 18px; border-top: 2.5px solid var(--copper); }
@@ -28,17 +28,17 @@
 .net__link.is-rats { border-top: 1px dashed var(--silk-line); margin-top: 11.5px; }
 .net__via { position: absolute; left: 50%; top: -9px; transform: translateX(-50%); width: 16px; height: 16px; border-radius: 50%; background: var(--copper); display: grid; place-items: center; }
 .net__via::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--desk); }
-.net__via span { position: absolute; top: 20px; font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--copper); white-space: nowrap; }
+.net__via span { position: absolute; top: 20px; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--copper); white-space: nowrap; }
 .net__node:focus-visible { outline-offset: 6px; }
 
 .net__panel { background: var(--mask); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; box-shadow: var(--sh-2); }
-.net__head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-.net__title { font-size: 1.32rem; margin: 10px 0 6px; }
+.net__head { display: flex; justify-content: space-between; align-items: baseline; gap: 6px 16px; flex-wrap: wrap; margin-bottom: 6px; }
+.net__title { font-size: 1.32rem; }
 .net__host { display: inline-flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); margin-bottom: 14px; }
 .net__host svg { width: 14px; height: 14px; color: var(--copper); }
 .net__rows { margin: 0; display: grid; gap: 11px; }
 .net__row { display: grid; grid-template-columns: 112px 1fr; gap: 14px; align-items: baseline; }
-.net__row dt { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--t, var(--muted)); }
+.net__row dt { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--t, var(--muted)); }
 .net__row dt svg { width: 13px; height: 13px; }
 .net__row dd { margin: 0; color: var(--ink-2); font-size: 0.96rem; }
 .net__nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 16px; padding-top: 14px; border-top: 1px dashed var(--silk-faint); flex-wrap: wrap; }
@@ -50,7 +50,7 @@
 .topo__svg { width: 100%; height: auto; display: block; }
 .topo__layer { fill: none; stroke: var(--silk-faint); stroke-dasharray: 4 4; }
 .topo__layer--inner { fill: rgba(111, 156, 232, 0.04); stroke: rgba(111, 156, 232, 0.3); }
-.topo__layerlbl { fill: var(--muted-2); font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; }
+.topo__layerlbl { fill: var(--muted-2); font-family: var(--mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; }
 .topo__layerlbl--inner { fill: var(--blue-soft); }
 .topo__t { fill: none; stroke-width: 2.5; stroke-linejoin: round; }
 .topo__t--top { stroke: var(--copper-2); }
@@ -58,17 +58,17 @@
 .topo__t--member { stroke: var(--violet); stroke-dasharray: 4 4; stroke-width: 1.5; opacity: 0.7; }
 .topo__net.is-on .topo__t--top, .topo__net.is-on .topo__t--inner { stroke: var(--signal); opacity: 1; }
 .topo__net.is-on .topo__t--member { opacity: 1; }
-.topo__netlbl { fill: var(--signal); font-family: var(--mono); font-size: 9px; text-anchor: middle; }
+.topo__netlbl { fill: var(--signal); font-family: var(--mono); font-size: 12px; paint-order: stroke; stroke: var(--mask); stroke-width: 4px; }
 .topo__via circle { fill: var(--copper); }
 .topo__via .topo__drill { fill: var(--desk); }
-.topo__vialbl { fill: var(--copper); font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.14em; text-anchor: middle; }
+.topo__vialbl { fill: var(--copper); font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; }
 .topo__node { cursor: pointer; }
 .topo__body { fill: var(--body); stroke: var(--t); stroke-width: 1.5; }
-.topo__node.is-sel .topo__body { stroke: var(--signal); stroke-width: 2.5; fill: #0b1a3b; }
+.topo__node.is-sel .topo__body { stroke: var(--signal); stroke-width: 2.5; fill: var(--body-2); }
 .topo__node:focus { outline: none; }
 .topo__node:focus-visible .topo__body { stroke: var(--signal); stroke-width: 3; }
-.topo__lbl { fill: var(--ink); font-family: var(--mono); font-size: 12px; font-weight: 600; text-anchor: middle; }
-.topo__sub { fill: var(--muted); font-family: var(--mono); font-size: 8.5px; text-anchor: middle; }
+.topo__lbl { fill: var(--ink); font-family: var(--mono); font-size: 13px; font-weight: 600; text-anchor: middle; }
+.topo__sub { fill: var(--muted); font-family: var(--mono); font-size: 12px; text-anchor: middle; }
 .topo__read { background: var(--mask); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; display: flex; flex-direction: column; }
 .topo__read-hd { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .topo__read-hd strong { color: var(--ink); font-family: var(--mono); font-size: 1rem; }
@@ -80,7 +80,7 @@
 .topo__pick, .krb__steps { display: flex; flex-wrap: wrap; gap: 6px; }
 .topo__pick { margin-top: auto; padding-top: 16px; }
 .topo__pickbtn, .krb__chip {
-  font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.04em; padding: 6px 10px; border-radius: 4px;
+  font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.04em; padding: 6px 10px; border-radius: 4px;
   border: 1px solid var(--line); background: transparent; color: var(--muted); cursor: pointer; min-height: 32px;
 }
 .topo__pickbtn:hover, .krb__chip:hover { border-color: var(--copper-dim); color: var(--ink-1); }
@@ -90,7 +90,7 @@
 .krb { display: grid; grid-template-columns: 1.35fr 1fr; gap: 18px; align-items: center; }
 .krb__svg { width: 100%; height: auto; background: var(--mask); border: 1px solid var(--line); border-radius: 12px; }
 .krb__actor { fill: var(--body); stroke: var(--silk-line); }
-.krb__actorlbl { fill: var(--ink-1); font-family: var(--mono); font-size: 11px; font-weight: 600; text-anchor: middle; }
+.krb__actorlbl { fill: var(--ink-1); font-family: var(--mono); font-size: 12px; font-weight: 600; text-anchor: middle; }
 .krb__life { stroke: var(--silk-faint); stroke-dasharray: 2 4; }
 .krb__msg { cursor: pointer; color: var(--t); }
 .krb__msg.is-off { opacity: 0.3; }
@@ -98,7 +98,7 @@
 .krb__msg.is-active .krb__line { stroke-width: 3; }
 .krb__msg:focus { outline: none; }
 .krb__msg:focus-visible .krb__line { stroke: var(--signal); stroke-width: 3; }
-.krb__lbl { fill: var(--ink-1); font-family: var(--mono); font-size: 10px; font-weight: 600; text-anchor: middle; }
+.krb__lbl { fill: var(--ink-1); font-family: var(--mono); font-size: 12px; font-weight: 600; text-anchor: middle; }
 .krb__weak { fill: var(--attacker); }
 .krb__read p { margin: 8px 0 0; color: var(--ink-2); font-size: 0.95rem; }
 .krb__read .krb__steps { margin-top: 14px; }

@@ -5,10 +5,11 @@
 @media print {
   :root {
     color-scheme: light;
-    --ink: #00112f; --ink-1: #00112f; --ink-2: #14243f; --muted: #3a4a6b; --muted-2: #55678c;
-    --mask: #ffffff; --desk: #ffffff; --body: #f2f4f9; --well: #f4f6fb;
-    --line: #c9d2e6; --line-soft: #dde3f0; --silk-line: #b6c2dc; --silk-faint: #dde3f0; --silk-2: #3a4a6b; --silk: #00112f;
-    --copper: #8a6420; --copper-2: #8a6420; --signal: #004aa3;
+    --ink: #00112f; --ink-1: #00112f; --ink-2: #14243f; --muted: #1b3055; --muted-2: #16294a;
+    --mask: #ffffff; --desk: #ffffff; --body: rgba(0, 17, 47, 0.05); --body-2: rgba(0, 17, 47, 0.08); --well: rgba(0, 17, 47, 0.04);
+    --line: rgba(0, 17, 47, 0.22); --line-soft: rgba(0, 17, 47, 0.12); --silk-line: rgba(0, 17, 47, 0.3); --silk-faint: rgba(0, 17, 47, 0.12);
+    --silk-2: #1b3055; --silk: #00112f;
+    --copper: #004aa3; --copper-2: #004aa3; --copper-dim: rgba(0, 74, 163, 0.5); --signal: #004aa3;
   }
   body { background: #fff !important; color: #14243f; font-size: 10.5pt; }
   .masthead, .foot, .ds-rail, .ds-actions, .ds-crumb, .ds-pager, .present, .cmdk, .skip, .ds-notes,
@@ -19,11 +20,11 @@
   .ds-read { max-width: 100%; }
   .ds-head { grid-template-columns: auto 1fr; }
   .ds-pins { grid-column: 1 / -1; }
-  .ds-part { box-shadow: none; border: 1px solid #b6c2dc; }
+  .ds-part { box-shadow: none; border: 1px solid rgba(0, 17, 47, 0.3); }
   .ds-sec { break-inside: avoid; padding: 12pt 0; }
   .b-term__body, .b-http pre { white-space: pre-wrap; }
   .b-check__ans, .b-hints__body { display: block !important; }
   a { color: #004aa3; }
-  .tone-attacker { --t: #c23030; } .tone-valid { --t: #1f7a4f; } .tone-caution { --t: #8a6420; }
-  .tone-evidence { --t: #004aa3; } .tone-cyan { --t: #0b6b78; } .tone-violet { --t: #5a3fb0; }
+  .tone-attacker { --t: #c23030; } .tone-valid { --t: #37a06a; } .tone-caution { --t: #a85a66; }
+  .tone-evidence { --t: #004aa3; } .tone-cyan { --t: #004aa3; } .tone-violet { --t: #3e50dd; }
 }

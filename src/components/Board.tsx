@@ -52,15 +52,18 @@ function clean(pts: Pt[]): Pt[] {
    When B opens a new week courtyard and sits below A, the trace runs down
    the courtyard's left gutter and enters B's side pin — it never crosses
    the week's silkscreen legend. Stacked parts join top to bottom. */
-function route(a: Rect, b: Rect, court?: Rect): { d: string; p0: Pt; p1: Pt } {
+function route(a: Rect, b: Rect, court?: Rect, crossing = false): { d: string; p0: Pt; p1: Pt; via?: Pt } {
   let pts: Pt[];
+  let via: Pt | undefined;
   if (b.left >= a.right - 2) {
     const mx = (a.right + b.left) / 2;
     pts = [[a.right, a.cy], [mx, a.cy], [mx, b.cy], [b.left, b.cy]];
+    if (crossing) via = [mx, (a.cy + b.cy) / 2];
   } else if (court && b.top >= a.bottom - 2) {
     const gx = court.left + 10;
     const ya = a.bottom < court.top ? (a.bottom + court.top) / 2 : court.top - 10;
     pts = [[a.cx, a.bottom], [a.cx, ya], [gx, ya], [gx, b.cy], [b.left, b.cy]];
+    if (crossing) via = [gx, (ya + b.cy) / 2];
   } else if (b.top >= a.bottom - 2) {
     const my = (a.bottom + b.top) / 2;
     pts = [[a.cx, a.bottom], [a.cx, my], [b.cx, my], [b.cx, b.top]];
@@ -68,10 +71,14 @@ function route(a: Rect, b: Rect, court?: Rect): { d: string; p0: Pt; p1: Pt } {
     pts = [[a.cx, a.cy], [b.cx, b.cy]];
   }
   pts = clean(pts);
-  return { d: poly(pts), p0: pts[0], p1: pts[pts.length - 1] };
+  return { d: poly(pts), p0: pts[0], p1: pts[pts.length - 1], via };
 }
 
-interface Seg { d: string; p0: Pt; p1: Pt; live: boolean }
+/* proven: the target session is complete — routed copper carrying the signal.
+   probe: the single segment into the session you are on now.
+   rats: everything not yet proven — a thin dashed ratsnest line. */
+type SegState = 'proven' | 'probe' | 'rats';
+interface Seg { d: string; p0: Pt; p1: Pt; via?: Pt; state: SegState; inner: boolean; pivot: boolean }
 
 export function Board({
   sessions, completed, current, probe, onProbe,
@@ -93,7 +100,7 @@ export function Board({
   const order = ['J1', ...sessions.map((s) => s.id), 'J2'];
   const idx = (id: string) => sessions.findIndex((s) => s.id === id);
   const lastDone = Math.max(-1, ...completed.map(idx));
-  const reach = Math.max(lastDone, idx(current)); // furthest component the signal reaches
+  const cur = idx(current);
   const allDone = completed.length >= sessions.length;
 
   const measure = useCallback(() => {
@@ -108,15 +115,18 @@ export function Board({
       const prevS = sessions.find((s) => s.id === order[i]);
       const opensWeek = target && (!prevS || prevS.week !== target.week);
       const courtEl = opensWeek ? weekRefs.current[target!.week] : null;
-      const seg = route(rel(a, h), rel(b, h), courtEl ? rel(courtEl, h) : undefined);
-      // segment i joins order[i] → order[i+1]; session index of the target = i
-      const liveSeg = i === 0 ? true : i <= reach || (i === order.length - 2 && allDone);
-      out.push({ ...seg, live: liveSeg });
+      const crossing = !!(opensWeek && prevS);
+      const seg = route(rel(a, h), rel(b, h), courtEl ? rel(courtEl, h) : undefined, crossing);
+      // segment i joins order[i] → order[i+1]; the target's session index is i (J2 at the end)
+      const isExit = i === order.length - 2;
+      const state: SegState = isExit ? (allDone ? 'proven' : 'rats') : i <= lastDone ? 'proven' : i === cur ? 'probe' : 'rats';
+      const tWeek = target ? target.week : 5;
+      out.push({ ...seg, state, inner: tWeek >= 4, pivot: crossing && target?.week === 4 });
     }
     setSegs(out);
-    setLive(out.filter((s) => s.live).map((s) => s.d).join(''));
+    setLive(out.filter((s) => s.state !== 'rats').map((s) => s.d).join(''));
     setSize({ w: h.scrollWidth, h: h.scrollHeight });
-  }, [order.join(','), reach, allDone]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [order.join(','), lastDone, cur, allDone]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useLayoutEffect(() => {
     measure();
@@ -154,14 +164,21 @@ export function Board({
       <div className="board__in" ref={host}>
         <svg className="board__traces" width={size.w} height={size.h} aria-hidden>
           {segs.map((s, i) => (
-            <path key={i} d={s.d} className={`trace ${s.live ? 'trace--live' : ''}`} />
+            <path key={i} d={s.d} className={`trace trace--${s.state} ${s.inner ? 'trace--inner' : ''}`} />
           ))}
           {live && <path d={live} className="trace-glow" />}
           {live && <path ref={pulseRef} d={live} className="trace-pulse" />}
           {segs.map((s, i) => (
-            <g key={`p${i}`} className={s.live ? 'pad pad--live' : 'pad'}>
+            <g key={`p${i}`} className={s.state === 'rats' ? 'pad' : 'pad pad--live'}>
               <rect x={s.p0[0] - 3.5} y={s.p0[1] - 3.5} width="7" height="7" rx="1.5" />
               <rect x={s.p1[0] - 3.5} y={s.p1[1] - 3.5} width="7" height="7" rx="1.5" />
+            </g>
+          ))}
+          {segs.filter((s) => s.via).map((s, i) => (
+            <g key={`v${i}`} className={`via ${s.state !== 'rats' ? 'via--live' : ''} ${s.pivot ? 'via--pivot' : ''}`}>
+              <circle cx={s.via![0]} cy={s.via![1]} r="6.5" />
+              <circle cx={s.via![0]} cy={s.via![1]} r="2.4" className="via__drill" />
+              {s.pivot && <text x={s.via![0]} y={s.via![1] - 12} className="via__lbl">L2</text>}
             </g>
           ))}
         </svg>
@@ -185,6 +202,7 @@ export function Board({
                 <span className="wk__n">WK{w.n}</span>
                 <span className="wk__dates silk silk--dim">{w.dateRange}</span>
                 <span className="wk__title">{w.title}</span>
+                {w.n >= 4 && <span className="wk__layer silk silk--blue">L2 · inner layer</span>}
               </header>
               <div className="wk__parts">
                 {sessions.filter((s) => s.week === w.n).map((s) => {
@@ -230,7 +248,10 @@ export function Board({
           <span className="board__key silk silk--dim">
             <span className="key key--ic" aria-hidden /> U · theory chip
             <span className="key key--hdr" aria-hidden /> J · lab header
-            <span className="key key--live" aria-hidden /> live signal
+            <span className="key key--live" aria-hidden /> proven
+            <span className="key key--probe" aria-hidden /> probing
+            <span className="key key--rats" aria-hidden /> ratsnest
+            <span className="key key--via" aria-hidden /> via · L2 = inner layer
           </span>
           <span className="conn conn--out" ref={setRef('J2')}>
             <span className="silk">J2 · Objective</span>

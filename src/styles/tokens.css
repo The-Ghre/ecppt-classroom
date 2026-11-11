@@ -15,9 +15,9 @@
   --mask: #00112f;            /* navy solder mask — the board */
   --mask-2: #14243f;          /* raised mask over copper pour */
   --mask-3: #1b3055;
-  --body: #050f26;            /* chip package / component body */
-  --body-2: #12294f;          /* lit component body */
-  --well: #000a20;            /* recessed wells: console, code */
+  --body: #14243f;            /* component body (CODED navy) — raised above the mask */
+  --body-2: #1b3055;          /* lit / hovered component body (CODED navy-3) */
+  --well: #00081c;            /* recessed wells: console, code (CODED ground) */
 
   /* ---- Copper (gold ENIG) ---- */
   --copper: #e0b45c;          /* bright pads, routed traces */
@@ -107,9 +107,9 @@ body {
 ::selection { background: rgba(224, 180, 92, 0.35); color: #fff; }
 :root { accent-color: var(--copper); caret-color: var(--signal); }
 
-* { scrollbar-width: thin; scrollbar-color: #2a3c5e transparent; }
+* { scrollbar-width: thin; scrollbar-color: #1b3055 transparent; }
 *::-webkit-scrollbar { width: 11px; height: 11px; }
-*::-webkit-scrollbar-thumb { background: #22365a; border-radius: 99px; border: 3px solid transparent; background-clip: content-box; }
+*::-webkit-scrollbar-thumb { background: #16294a; border-radius: 99px; border: 3px solid transparent; background-clip: content-box; }
 *::-webkit-scrollbar-thumb:hover { background: #c89a45; background-clip: content-box; }
 *::-webkit-scrollbar-track { background: transparent; }
 

@@ -45,8 +45,7 @@ export function Reference() {
         <div className="ref-stages__grid">
           {STAGES.map((s) => (
             <div key={s.id} className={`ref-stage tone-${s.tone}`}>
-              <div className="ref-stage__top"><span className="led" aria-hidden /><span className="silk silk--dim">Hop {String(s.n).padStart(2, '0')}</span></div>
-              <h3>{s.full}</h3>
+              <h3><span className="led" aria-hidden /><span className="silk silk--dim">Hop {String(s.n).padStart(2, '0')}</span> {s.full}</h3>
               <p>{s.blurb}</p>
             </div>
           ))}

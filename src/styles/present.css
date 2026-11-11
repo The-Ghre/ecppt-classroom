@@ -71,7 +71,7 @@
 .fp.is-done .fp__pads i, .fp.is-current .fp__pads i { background: var(--signal); }
 .fp__n { font: 600 0.82rem var(--mono); color: var(--copper); }
 .fp__title { color: var(--ink-1); font-size: 0.92rem; font-weight: 500; line-height: 1.28; }
-.fp__tag { margin-top: auto; font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted-2); }
+.fp__tag { margin-top: auto; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted-2); }
 
 .keys { margin: 0; padding: 16px 20px 20px; display: grid; gap: 11px; }
 .keys__row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }

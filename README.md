@@ -15,21 +15,33 @@ network topology).
 > used only in instructor-controlled lab scenarios. No instructor solutions,
 > real credentials, or full capstone walkthroughs are shipped in this bundle.
 
+## The design: Signal Board
+The whole course is drawn as one circuit board. Theory sessions are IC chips
+(`U#`), labs are test headers (`J#`), and the five weeks are silkscreened
+courtyards on a single routed bus. Your progress lays the copper: completed
+sessions power the trace, the session you're on is the probing segment, and
+everything still unproven is a dashed ratsnest line. Weeks 4–5 run on the inner
+layer (the internal network), reached through a pivot via. See [`DESIGN.md`](DESIGN.md).
+
 ## Three student modes
-- **Roadmap** (`/`) — the five-week course map with dates, outcomes, the attack
-  chain, and the exam-domain vs course-grading scorecards (kept distinct).
+- **Course board** (`/`) — the board above, a probe readout for any session you
+  hover or tab to, the attack-path net, the five test points, and the
+  exam-domain vs course-grading tables (kept distinct).
 - **Presentation** (`/present/:id/:slide`) — a full-screen slide player:
-  keyboard + visible navigation, fullscreen, a slide-overview grid, per-slide
-  shareable links, a shortcuts panel, and reliable back/forward/refresh.
-- **Study** (`/session/:id`) — a continuous, readable version of each session
-  with expanded explanations, sources, and revision questions; prints cleanly to PDF.
+  keyboard + visible navigation, fullscreen, progress as a trace with one via per
+  slide, a placement view of every slide, per-slide shareable links, a shortcuts
+  panel, and reliable back/forward/refresh.
+- **Datasheet / study** (`/session/:id`) — each session as a component
+  datasheet: pin configuration, numbered sections, application notes for the
+  deeper study material, references, and a bench exercise; prints cleanly to PDF.
 
 Plus: course-wide search (press `/` or `⌘/Ctrl-K`), local progress & resume
-(no accounts), and the **Attack chain** reference (`/reference`).
+(no accounts), and the **Attack path** reference (`/reference`) with the
+attack-path net, the lab network as a two-layer board, and the Kerberos exchange.
 
 ## Keyboard shortcuts (presentation)
 `→` / `Space` next · `←` previous · `Home` / `End` first / last ·
-`O` slide overview · `F` fullscreen · `?` help · `Esc` close / exit fullscreen.
+`O` placement view (all slides) · `F` fullscreen · `?` help · `Esc` close / exit fullscreen.
 Shortcuts never fire while you are typing in a field or operating a control.
 
 ## Develop
@@ -90,7 +102,7 @@ keep slide text concise and put the depth in `study`.
 1. Create `src/content/sessions/s16.ts` exporting a `Session`.
 2. Import it in `src/content/index.ts` and add it to the `SESSIONS` array.
 
-The roadmap, search index, progress, and navigation all update automatically.
+The course board, search index, progress, and navigation all update automatically.
 
 ## Brand tokens
 Colours and typography come **only** from the CODED reference and are recorded

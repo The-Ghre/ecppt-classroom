@@ -7,6 +7,8 @@ import { AttackChain } from '../diagrams/AttackChain';
 import { I } from '../components/icons';
 import { useProgress } from '../lib/useProgress';
 
+const des = (s: { kind: string; number: number }) => `${s.kind === 'practical' ? 'J' : 'U'}${s.number}`;
+
 export function Overview() {
   const { progress } = useProgress();
   const firstOpen = SESSIONS.find((s) => !progress.completed.includes(s.id))?.id ?? SESSIONS[SESSIONS.length - 1].id;
@@ -28,7 +30,7 @@ export function Overview() {
           </p>
           <div className="ov-cta">
             <Link to={`/session/${resume.id}`} className="btn btn--primary btn--lg">
-              <I.play /> {started ? `Resume S${String(resume.number).padStart(2, '0')}` : 'Start at S01'}
+              <I.play /> {started ? `Resume ${des(resume)}` : 'Start at U1'}
             </Link>
             <Link to="/reference" className="btn btn--lg"><I.target /> Trace the attack chain</Link>
           </div>
@@ -38,20 +40,17 @@ export function Overview() {
         </div>
 
         <aside className="probe" aria-live="polite" aria-label="Probe readout for the selected session">
-          <div className="probe__hd">
+          <h2 className="probe__title">
             <span className="probe__tip" aria-hidden />
-            <span className="silk silk--signal">Probe · {probed.kind === 'practical' ? `J${probed.number}` : `U${probed.number}`}</span>
-            <span className={`chip ${probed.kind === 'practical' ? 'chip--practical' : 'chip--theory'}`}>
-              {probed.kind === 'practical' ? <I.flag /> : <I.book />} {probed.kind === 'practical' ? 'Lab' : 'Theory'}
-            </span>
-          </div>
-          <h2 className="probe__title">{probed.title}</h2>
+            <span className="probe__des">{des(probed)}</span>
+            <span>{probed.title}</span>
+          </h2>
           <p className="probe__outcome">{probed.outcome}</p>
           <dl className="probe__pins">
             <div><dt className="silk silk--dim">Date</dt><dd>{probed.day} {probed.dateLabel}</dd></div>
             <div><dt className="silk silk--dim">Length</dt><dd>{probed.durationHours} hours</dd></div>
             <div><dt className="silk silk--dim">Slides</dt><dd>{probed.slides.length}</dd></div>
-            <div><dt className="silk silk--dim">Week</dt><dd>{probed.week} of 5</dd></div>
+            <div><dt className="silk silk--dim">Type</dt><dd>{probed.kind === 'practical' ? 'Lab header' : 'Theory chip'}</dd></div>
           </dl>
           <div className="probe__stages">
             {STAGES.filter((st) => probed.stages.includes(st.id)).map((st) => (
@@ -95,8 +94,7 @@ export function Overview() {
           {FIVE_QUESTIONS.map((q, i) => (
             <li key={i} className="tp">
               <span className="tp__pad" aria-hidden><span /></span>
-              <span className="tp__id silk silk--copper">TP{i + 1}</span>
-              <span className="tp__q">{q}</span>
+              <span className="tp__q"><span className="tp__id silk silk--copper">TP{i + 1}</span> {q}</span>
             </li>
           ))}
         </ol>
@@ -129,8 +127,7 @@ function WeightTable({ n, title, sub, col, rows }: { n: number; title: string; s
   return (
     <figure className="dtable">
       <figcaption className="dtable__cap">
-        <span className="silk silk--copper">Table {n}</span>
-        <strong>{title}</strong>
+        <strong><span className="silk silk--copper">Table {n}</span> {title}</strong>
         <span className="dim">{sub}</span>
       </figcaption>
       <table>
