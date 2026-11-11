@@ -1,0 +1,43 @@
+/* ============================================================
+   Print — clean, light, legible PDF export of a study session.
+   Triggered from study mode (Print / save as PDF).
+   ============================================================ */
+@media print {
+  :root { color-scheme: light; }
+  body {
+    background: #fff !important; color: #16213a; background-image: none !important;
+    font-size: 11pt;
+  }
+  .masthead, .foot, .sv-rail, .sv-actions, .sv-crumb, .sv-pager, .present, .cmdk, .nav, .skip,
+  .sv-notes, .scard__go, .ov-hero__cta, .present__bar { display: none !important; }
+
+  a { color: #0a4da0; text-decoration: underline; }
+  .wrap { max-width: 100%; padding: 0; }
+  .sv { padding: 0; }
+  .sv-body { display: block; }
+  .sv-read { max-width: 100%; }
+
+  h1, h2, h3, h4 { color: #0a1c3a; }
+  .sv-title { font-size: 22pt; }
+  .sv-slide { break-inside: avoid; border-bottom: 1px solid #d5ddf0; padding: 14pt 0; }
+  .sv-slide__title { font-size: 14pt; }
+  .sv-slide__lead { color: #2a3a5c; }
+
+  .readout, .mono, .kicker { color: #4a5a7c !important; }
+  .panel, .b-callout, .b-check, .b-reason, .b-term, .b-http__pane, .b-figure, .adtree, .ov-weight,
+  .b-table-wrap, .b-hints, .topo__stage, .topo__read, .krb__svg, .chain__panel {
+    background: #f4f6fc !important; border-color: #ccd6ea !important; box-shadow: none !important; color: #16213a;
+  }
+  .b-term__body, .b-http pre { color: #1a2a48 !important; }
+  .b-term__p { color: #1a7a4a !important; }
+  .icode { color: #0a4da0 !important; background: #e6edfb !important; border-color: #c4d2ee !important; }
+  .b-prose, .b-list li, .b-table td, .b-callout__md, .chain__row dd, .topo__facts dd { color: #243352 !important; }
+  .chip { border-color: #c4d2ee !important; }
+
+  /* reveal collapsed teaching content for the printed record */
+  .b-check__ans, .b-hints__body { display: block !important; }
+  .sv-study { background: #f8faff !important; border-color: #ccd6ea !important; }
+
+  .b-table th { background: #e9eefa !important; color: #2a3a5c !important; }
+  .sv-slide, .panel { page-break-inside: avoid; }
+}

@@ -1,0 +1,88 @@
+/* ============================================================
+   Presentation player — the interface recedes while teaching
+   ============================================================ */
+.present {
+  position: fixed; inset: 0; z-index: 90; display: grid;
+  grid-template-rows: auto 1fr auto; background: var(--bg);
+  background-image:
+    radial-gradient(130% 90% at 50% -20%, rgba(47, 116, 214, 0.12), transparent 55%),
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 100% 100%, 52px 52px, 52px 52px;
+}
+
+.present__bar { display: flex; align-items: center; gap: 14px; padding: 12px clamp(16px, 3vw, 32px); transition: opacity 0.4s var(--ease), transform 0.4s var(--ease); }
+.present__top { border-bottom: 1px solid var(--line-soft); background: rgba(0, 6, 22, 0.5); backdrop-filter: blur(8px); }
+.present__bottom { border-top: 1px solid var(--line-soft); background: rgba(0, 6, 22, 0.5); backdrop-filter: blur(8px); gap: 16px; }
+.present.is-idle.is-fs .present__bar { opacity: 0; pointer-events: none; }
+.present.is-idle.is-fs .present__top { transform: translateY(-100%); }
+.present.is-idle.is-fs .present__bottom { transform: translateY(100%); }
+
+.present__exit { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); text-decoration: none; font-size: 0.86rem; padding: 6px 10px; border-radius: 7px; }
+.present__exit:hover { color: var(--ink-1); background: rgba(255, 255, 255, 0.05); }
+.present__exit svg { width: 16px; height: 16px; }
+.present__meta { display: flex; align-items: center; gap: 12px; margin: 0 auto 0 8px; min-width: 0; }
+.present__sess { color: var(--ink-1); font-weight: 600; font-size: 0.94rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.present__tools { display: flex; align-items: center; gap: 4px; margin-left: auto; }
+.present__count { color: var(--muted); font-size: 0.8rem; margin-right: 8px; letter-spacing: 0.04em; }
+.present__tool { display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid transparent; border-radius: 8px; background: none; color: var(--muted); cursor: pointer; }
+.present__tool:hover { color: var(--ink); background: rgba(255, 255, 255, 0.06); border-color: var(--line); }
+.present__tool svg { width: 18px; height: 18px; }
+
+/* stage */
+.present__stage { overflow-y: auto; display: grid; place-items: center; padding: clamp(20px, 4vh, 48px) clamp(20px, 5vw, 80px); }
+.pslide { width: 100%; max-width: 1100px; animation: pslide-in 0.4s var(--ease-out); }
+@keyframes pslide-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.pslide__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+.pslide__tag { font-size: 0.74rem; }
+.pslide__crumb { font-size: 0.7rem; color: var(--muted-2); letter-spacing: 0.1em; }
+.pslide__title { margin-bottom: 14px; }
+.pslide__sub { margin: 0 0 14px; max-width: 60ch; }
+.pslide__lead { font-size: clamp(1.1rem, 1.9vw, 1.45rem); color: var(--ink-1); line-height: 1.45; margin: 0 0 24px; max-width: 54ch; }
+.pslide__body { font-size: 1.06rem; }
+.pslide__body .b-prose p { font-size: 1.05rem; }
+
+/* hero (title slide) */
+.pslide--hero { max-width: 1000px; }
+.pslide--hero .pslide__title { font-size: clamp(2.6rem, 6.5vw, 5rem); }
+.pslide--hero .pslide__sub { font-size: clamp(1.2rem, 2.4vw, 1.8rem); color: var(--blue-text); margin-bottom: 20px; }
+
+/* bottom nav */
+.present__nav { white-space: nowrap; }
+.present__progress { flex: 1; display: flex; flex-direction: column; gap: 9px; min-width: 0; }
+.present__track { height: 4px; border-radius: 99px; background: rgba(255, 255, 255, 0.08); overflow: hidden; }
+.present__track span { display: block; height: 100%; background: linear-gradient(90deg, var(--blue), var(--blue-bright)); border-radius: 99px; transition: width 0.35s var(--ease); }
+.present__dots { display: flex; gap: 5px; justify-content: center; flex-wrap: wrap; }
+.present__dot { width: 9px; height: 9px; border-radius: 99px; border: 0; background: rgba(255, 255, 255, 0.16); cursor: pointer; padding: 0; transition: background 0.2s, transform 0.2s; }
+.present__dot:hover { background: var(--muted); transform: scale(1.3); }
+.present__dot.is-done { background: rgba(111, 156, 232, 0.5); }
+.present__dot.is-on { background: var(--blue-bright); transform: scale(1.4); }
+
+/* overlays */
+.ovl { position: fixed; inset: 0; z-index: 110; background: rgba(0, 4, 16, 0.78); backdrop-filter: blur(6px); display: grid; place-items: center; padding: 24px; }
+.ovl__panel { width: 100%; max-width: 1000px; max-height: 86vh; display: flex; flex-direction: column; background: var(--panel-2); border: 1px solid var(--line); border-radius: var(--r-3); box-shadow: var(--sh-3); overflow: hidden; animation: cmdk-in 0.18s var(--ease-out); }
+.ovl__panel--sm { max-width: 460px; }
+.ovl__hd { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--line-soft); }
+.ovl__grid { padding: 18px; overflow-y: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(188px, 1fr)); gap: 12px; }
+.ovl__card { position: relative; display: flex; flex-direction: column; gap: 10px; min-height: 108px; padding: 14px; text-align: left; border: 1px solid var(--line); border-radius: var(--r-2); background: var(--panel); cursor: pointer; aspect-ratio: 16/10; transition: border-color 0.18s, background 0.18s, transform 0.18s; }
+.ovl__card:hover { border-color: rgba(111, 156, 232, 0.45); background: #10244a; transform: translateY(-2px); }
+.ovl__card.is-current { border-color: var(--blue-bright); box-shadow: var(--glow-blue); }
+.ovl__card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.ovl__card-n { font-size: 0.78rem; color: var(--blue-soft); }
+.ovl__card-tag { font-size: 0.6rem; color: var(--muted-2); letter-spacing: 0.08em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 110px; }
+.ovl__card-title { color: var(--ink-1); font-size: 0.92rem; font-weight: 500; line-height: 1.25; }
+
+.keys { margin: 0; padding: 18px 20px; display: grid; gap: 10px; }
+.keys__row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.keys__row dt { display: flex; gap: 5px; }
+.keys__row dd { margin: 0; color: var(--muted); font-size: 0.9rem; }
+
+@media (max-width: 640px) {
+  .present__meta { margin-left: 4px; gap: 8px; }
+  .present__sess { display: none; }
+  .present__exit span { display: none; }
+  .pslide__body { font-size: 1rem; }
+}
+@media (max-width: 420px) {
+  .present__dots { display: none; }
+}
