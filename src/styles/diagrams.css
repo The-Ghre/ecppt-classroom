@@ -31,7 +31,7 @@
 .chain__node:last-child::after { right: auto; width: 0; }
 
 .chain__panel {
-  position: relative; border: 1px solid var(--tb); border-left: 3px solid var(--t);
+  position: relative; border: 1px solid var(--tb); border-left: 1px solid var(--t);
   border-radius: var(--r-2); background: linear-gradient(180deg, var(--tbg), transparent 80%), var(--panel);
   padding: 18px 20px; box-shadow: var(--sh-2);
 }
@@ -80,7 +80,7 @@
 .topo__read-hd .mono { font-size: 0.64rem; }
 .topo__note { color: var(--ink-2); font-size: 0.94rem; margin: 0 0 14px; }
 .topo__facts { margin: 0; display: grid; gap: 11px; }
-.topo__facts > div { border-left: 2px solid var(--t); padding-left: 11px; }
+.topo__facts > div { border-left: 1px solid var(--t); padding-left: 11px; }
 .topo__facts dt { font-size: 0.64rem; letter-spacing: 0.1em; color: var(--t); display: flex; align-items: center; gap: 6px; margin-bottom: 3px; }
 .topo__facts dt svg { width: 13px; height: 13px; }
 .topo__facts dd { margin: 0; color: var(--muted); font-size: 0.9rem; }
@@ -120,7 +120,7 @@
 .adtree__root { display: flex; align-items: center; gap: 9px; color: var(--ink); font-weight: 600; padding-bottom: 12px; margin-bottom: 8px; border-bottom: 1px solid var(--line-soft); }
 .adtree__root svg { width: 17px; height: 17px; color: var(--blue-soft); }
 .adtree__branch { display: grid; gap: 7px; padding-left: 10px; }
-.adtree__node { display: flex; align-items: center; gap: 9px; padding: 9px 12px; border: 1px solid var(--line-soft); border-left: 2px solid var(--t, var(--muted-2)); border-radius: 8px; background: rgba(255, 255, 255, 0.015); color: var(--ink-2); font-size: 0.9rem; font-weight: 500; }
+.adtree__node { display: flex; align-items: center; gap: 9px; padding: 9px 12px; border: 1px solid var(--line-soft); border-left: 1px solid var(--t, var(--muted-2)); border-radius: 8px; background: rgba(255, 255, 255, 0.015); color: var(--ink-2); font-size: 0.9rem; font-weight: 500; }
 .adtree__node svg { width: 15px; height: 15px; color: var(--t, var(--muted)); flex-shrink: 0; }
 .adtree__node .dimmer { margin-left: auto; font-size: 0.8rem; font-weight: 400; text-align: right; }
 

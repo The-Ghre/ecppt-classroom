@@ -124,7 +124,7 @@ export function Present() {
       <footer className="present__bar present__bottom">
         <button className="btn btn--ghost present__nav" onClick={() => goto(idx)} disabled={idx === 0} aria-label="Previous slide"><I.arrowL /> Prev</button>
         <div className="present__progress" role="group" aria-label="Slide progress">
-          <div className="present__track"><span style={{ width: `${pct}%` }} /></div>
+          <div className="present__track"><span style={{ transform: `scaleX(${pct / 100})` }} /></div>
           <div className="present__dots">
             {session.slides.map((s, i) => (
               <button key={s.id} className={`present__dot ${i === idx ? 'is-on' : ''} ${i < idx ? 'is-done' : ''}`} onClick={() => goto(i + 1)} aria-label={`Go to slide ${i + 1}: ${s.title}`} aria-current={i === idx ? 'true' : undefined} />

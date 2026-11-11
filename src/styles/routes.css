@@ -24,11 +24,16 @@
 .ov-hero__grid { display: grid; grid-template-columns: 1.55fr 1fr; gap: clamp(24px, 4vw, 56px); align-items: end; }
 .ov-hero__kick { display: flex; gap: 14px; align-items: center; margin-bottom: 20px; }
 .ov-hero__title { margin-bottom: 20px; }
+/* Single, deliberate brand echo: the CODED reference hero sets its emphasis
+   word in a restrained white-to-periwinkle gradient. We mirror that one
+   treatment here and nowhere else; all other emphasis is weight/size/colour. */
 .ov-em {
-  font-style: normal; color: transparent;
-  background: linear-gradient(100deg, var(--blue-soft), #8fa8ff 55%, var(--cyan));
+  font-style: normal; color: var(--blue-soft);
+  background: linear-gradient(100deg, #ffffff, #8fa8ff 60%);
   -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
+@media (forced-colors: active) { .ov-em { -webkit-text-fill-color: currentColor; color: currentColor; } }
 .ov-hero__lede { max-width: 54ch; }
 .ov-hero__cta { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
 
@@ -42,7 +47,7 @@
 .ov-prog__hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 9px; }
 .ov-prog__pct { color: var(--blue-soft); font-size: 0.8rem; }
 .ov-prog__bar { height: 8px; border-radius: 99px; background: rgba(255, 255, 255, 0.06); overflow: hidden; border: 1px solid var(--line-soft); }
-.ov-prog__bar span { display: block; height: 100%; background: linear-gradient(90deg, var(--blue), var(--blue-bright)); border-radius: 99px; transition: width 0.5s var(--ease); }
+.ov-prog__bar span { display: block; height: 100%; width: 100%; transform-origin: left; background: linear-gradient(90deg, var(--blue), var(--blue-bright)); border-radius: 99px; transition: transform 0.5s var(--ease); }
 .ov-prog__note { margin: 10px 0 0; font-size: 0.78rem; }
 
 /* spine */
@@ -73,10 +78,10 @@
 
 /* session card */
 .scard { position: relative; display: flex; flex-direction: column; gap: 10px; padding: 18px 18px 16px; background: var(--panel); text-decoration: none; transition: background 0.2s var(--ease); min-height: 172px; }
-.scard::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--blue-soft); opacity: 0.0; transition: opacity 0.2s; }
-.scard--practical::before { background: var(--caution); }
+.scard::after { content: ""; position: absolute; left: 18px; right: 18px; top: 0; height: 1px; background: var(--blue-soft); opacity: 0; transition: opacity 0.2s; }
+.scard--practical::after { background: var(--caution); }
 .scard:hover { background: #10244a; }
-.scard:hover::before { opacity: 0.9; }
+.scard:hover::after { opacity: 0.8; }
 .scard__top { display: flex; align-items: center; gap: 9px; }
 .scard__no { font-size: 0.72rem; color: var(--muted-2); letter-spacing: 0.08em; }
 .scard__done { margin-left: auto; color: var(--valid); display: inline-flex; }
@@ -132,7 +137,7 @@
 .sv-head { display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: start; padding-bottom: 28px; margin-bottom: 8px; border-bottom: 1px solid var(--line-soft); }
 .sv-title { margin-bottom: 8px; }
 .sv-topic { max-width: 54ch; margin-bottom: 18px; }
-.sv-outcome { border-left: 2px solid var(--blue-soft); padding-left: 14px; margin-bottom: 20px; }
+.sv-outcome { border-left: 1px solid var(--blue-soft); padding-left: 14px; margin-bottom: 20px; }
 .sv-outcome p { margin: 5px 0 0; color: var(--ink-1); font-size: 1.02rem; max-width: 56ch; }
 .sv-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 .sv-head__facts { display: grid; gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft); border-radius: var(--r-2); overflow: hidden; min-width: 200px; }

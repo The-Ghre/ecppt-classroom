@@ -54,7 +54,7 @@ export function Overview() {
                   <span className="mono ov-prog__pct">{doneCount}/{SESSIONS.length}</span>
                 </div>
                 <div className="ov-prog__bar" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100} aria-label="Sessions completed">
-                  <span style={{ width: `${pct}%` }} />
+                  <span style={{ transform: `scaleX(${pct / 100})` }} />
                 </div>
                 <p className="ov-prog__note dimmer">
                   {started ? 'Progress is saved on this device only — no account needed.' : 'Mark sessions complete as you go; your place is saved locally.'}

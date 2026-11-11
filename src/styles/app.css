@@ -54,6 +54,20 @@
 .nav a:hover { color: var(--ink-1); background: rgba(255, 255, 255, 0.05); }
 .nav a.is-active { color: #fff; background: rgba(111, 156, 232, 0.14); }
 
+/* Masthead collapses gracefully on phones: drop the brand sub-label,
+   tighten spacing, and reduce the search control to its icon. */
+@media (max-width: 560px) {
+  .masthead__in { gap: var(--s-3); }
+  .brandmark__sub { display: none; }
+  .nav { gap: 0; }
+  .nav a { padding: 7px 9px; font-size: 0.84rem; }
+  .nav__search { margin-left: 2px; padding: 8px; }
+  .nav__search span, .nav__search .kbd { display: none; }
+}
+@media (max-width: 380px) {
+  .nav a { padding: 7px 7px; font-size: 0.8rem; }
+}
+
 /* ---- Buttons ---- */
 .btn {
   --bx: 15px; --by: 10px;
