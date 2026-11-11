@@ -108,7 +108,7 @@
 .part--ic { background: var(--body); box-shadow: var(--sh-2); }
 .part--hdr { background: var(--mask); border: 1px solid var(--silk-line); }
 .part:hover, .part.is-probed { transform: translateY(-2px); }
-.part--ic:hover, .part--ic.is-probed { background: var(--body-2); box-shadow: 0 12px 24px -12px rgba(0, 3, 12, 0.95), 0 2px 3px rgba(0, 3, 12, 0.5); }
+.part--ic:hover, .part--ic.is-probed { background: var(--body-2); box-shadow: 0 12px 24px -12px rgba(0, 8, 28, 0.95), 0 2px 3px rgba(0, 8, 28, 0.5); }
 .part--hdr:hover, .part--hdr.is-probed { border-color: var(--copper); }
 .part.is-live { box-shadow: 0 0 0 1px var(--signal), var(--sh-2); }
 .part.is-probed { outline: 1px dashed var(--signal); outline-offset: 4px; }
@@ -130,6 +130,11 @@
 .part__title { color: var(--ink-1); font-weight: 600; font-size: 0.94rem; line-height: 1.25; }
 .part--hdr .part__title { color: var(--copper); }
 .part__line { margin-top: auto; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted-2); }
+
+/* on raised component bodies, secondary text uses muted (#9fb2d4) for AA contrast */
+.part--ic .part__line, .part--ic .part__state { color: var(--muted); }
+.part--ic.is-done .part__state { color: var(--valid); }
+.part--ic.is-live .part__state { color: var(--signal); }
 
 /* ---- Sections below the board ---- */
 .ov-sec { margin-top: clamp(64px, 9vw, 104px); }

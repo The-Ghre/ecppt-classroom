@@ -1,29 +1,818 @@
 {
-  "name": "CODED eCPPT Classroom",
-  "direction": "Blueprint Console",
-  "source": "https://coded-reels-playbook.vercel.app/",
-  "mode": "dark",
-  "tokens": {
-    "color": {
-      "bg": "#00081c", "bgDeep": "#00112f", "panel": "#0c1c3a", "panel2": "#12294f",
-      "panel3": "#16294a", "navy": "#14243f", "navy3": "#1b3055", "inset": "#081630",
-      "ink": "#ffffff", "ink1": "#e6edff", "ink2": "#cdd9f5", "muted": "#9fb2d4", "muted2": "#6f83a8",
-      "blue": "#004aa3", "blueBright": "#2f74d6", "blueSoft": "#6f9ce8", "blueText": "#9cc0ff", "indigo": "#3e50dd",
-      "evidence": "#6f9ce8", "attacker": "#f84b4b", "valid": "#5ad0a0", "caution": "#e0b45c", "cyan": "#79e2ec", "violet": "#c8adff",
-      "line": "rgba(255,255,255,.12)", "lineSoft": "rgba(255,255,255,.08)", "grid": "rgba(143,168,255,.055)",
-      "card": "rgba(255,255,255,.045)", "cardBorder": "rgba(255,255,255,.10)"
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-11T07:46:07+00:00",
+  "title": "Design System: CODED eCPPT Classroom",
+  "extensions": {
+    "direction": "Signal Board (replaces the retired Blueprint Console)",
+    "brandSource": "https://coded-reels-playbook.vercel.app/",
+    "tokenSource": "src/styles/tokens.css",
+    "tonalRampNote": "tonalRamp arrays are synthesized OKLCH display strips for the live panel only. They are not brand colours; build only with each canonical value.",
+    "colorMeta": {
+      "copper": {
+        "role": "primary",
+        "displayName": "Gold Copper",
+        "canonical": "#e0b45c",
+        "oklch": "oklch(79.2% 0.118 82.9)",
+        "tonalRamp": [
+          "#110a00",
+          "#302102",
+          "#523c07",
+          "#775811",
+          "#9f750e",
+          "#c2973d",
+          "#e9bd65",
+          "#feeccb"
+        ],
+        "referenceSource": "https://coded-reels-playbook.vercel.app/ rendered gold"
+      },
+      "copper-unpowered": {
+        "role": "primary",
+        "displayName": "Unpowered Copper",
+        "canonical": "#c89a45",
+        "oklch": "oklch(71.3% 0.116 80.3)",
+        "tonalRamp": [
+          "#120900",
+          "#312103",
+          "#543a00",
+          "#7a5604",
+          "#a17415",
+          "#c49641",
+          "#ebbc68",
+          "#feeccf"
+        ],
+        "referenceSource": "https://coded-reels-playbook.vercel.app/ --gold"
+      },
+      "signal": {
+        "role": "secondary",
+        "displayName": "Live Signal Cyan",
+        "canonical": "#79e2ec",
+        "oklch": "oklch(85.3% 0.098 203.6)",
+        "tonalRamp": [
+          "#000e10",
+          "#022a2d",
+          "#08494e",
+          "#136a71",
+          "#0d8e98",
+          "#43b0ba",
+          "#6ed7e1",
+          "#c8f9fe"
+        ],
+        "referenceSource": "https://coded-reels-playbook.vercel.app/ cyan"
+      },
+      "inner-layer": {
+        "role": "secondary",
+        "displayName": "Inner Layer Blue",
+        "canonical": "#6f9ce8",
+        "oklch": "oklch(69.3% 0.123 260.4)",
+        "tonalRamp": [
+          "#000825",
+          "#021f55",
+          "#143c7f",
+          "#325ba2",
+          "#517cc6",
+          "#719eeb",
+          "#a3c5fe",
+          "#e6efff"
+        ],
+        "referenceSource": "https://coded-reels-playbook.vercel.app/ --blue-soft"
+      },
+      "attacker": {
+        "role": "tertiary",
+        "displayName": "Attacker Red",
+        "canonical": "#f84b4b",
+        "oklch": "oklch(65.9% 0.210 25.0)",
+        "tonalRamp": [
+          "#1f0001",
+          "#490408",
+          "#7c000f",
+          "#b1041c",
+          "#df3036",
+          "#f96a64",
+          "#feaba4",
+          "#fee9e6"
+        ],
+        "referenceSource": "https://coded-reels-playbook.vercel.app/ --red"
+      },
+      "attacker-soft": {
+        "role": "tertiary",
+        "displayName": "Attacker Text",
+        "canonical": "#ff6b6b",
+        "oklch": "oklch(71.2% 0.181 22.8)",
+        "tonalRamp": [
+          "#1f0002",
+          "#4a020a",
+          "#790b18",
+          "#ad1628",
+          "#d34347",
+          "#fb6768",
+          "#fbaca8",
+          "#ffe9e7"
+        ],
+        "referenceSource": "https://coded-reels-playbook.vercel.app/ --no"
+      },
+      "valid": {
+        "role": "tertiary",
+        "displayName": "Validated Green",
+        "canonical": "#5ad0a0",
+        "oklch": "oklch(77.7% 0.128 163.8)",
+        "tonalRamp": [
+          "#000f08",
+          "#002c1c",
+          "#034c34",
+          "#096f4e",
+          "#1d936a",
+          "#3db788",
+          "#69dead",
+          "#c3fee2"
+        ],
+        "referenceSource": "https://coded-reels-playbook.vercel.app/ --ok"
+      },
+      "identity": {
+        "role": "tertiary",
+        "displayName": "Identity Violet",
+        "canonical": "#c8adff",
+        "oklch": "oklch(80.1% 0.117 298.9)",
+        "tonalRamp": [
+          "#110126",
+          "#2d0d53",
+          "#492d74",
+          "#674c96",
+          "#876cb9",
+          "#a88edd",
+          "#ccb6fc",
+          "#f0ebfe"
+        ],
+        "referenceSource": "https://coded-reels-playbook.vercel.app/ violet"
+      },
+      "evidence-text": {
+        "role": "tertiary",
+        "displayName": "Evidence Text",
+        "canonical": "#9cc0ff",
+        "oklch": "oklch(80.5% 0.098 261.4)",
+        "tonalRamp": [
+          "#000728",
+          "#052052",
+          "#213e73",
+          "#3d5d95",
+          "#5c7db8",
+          "#7c9fdc",
+          "#a6c5fb",
+          "#e6effe"
+        ],
+        "referenceSource": "https://coded-reels-playbook.vercel.app/ accent text #9cc0ff"
+      },
+      "desk": {
+        "role": "neutral",
+        "displayName": "Desk",
+        "canonical": "#00081c",
+        "oklch": "oklch(13.8% 0.048 256.5)",
+        "tonalRamp": [
+          "#010a1f",
+          "#14243b",
+          "#2f4159",
+          "#4c5f79",
+          "#6b7f9a",
+          "#8ba0bd",
+          "#b0c6e4",
+          "#e5effe"
+        ],
+        "referenceSource": "https://coded-reels-playbook.vercel.app/ background (body)"
+      },
+      "solder-mask": {
+        "role": "neutral",
+        "displayName": "Solder Mask",
+        "canonical": "#00112f",
+        "oklch": "oklch(18.4% 0.066 257.3)",
+        "tonalRamp": [
+          "#000a22",
+          "#0d2443",
+          "#284062",
+          "#455f83",
+          "#647fa5",
+          "#85a0c8",
+          "#a9c6ef",
+          "#e5effe"
+        ],
+        "referenceSource": "https://coded-reels-playbook.vercel.app/ --navy-deep"
+      },
+      "component-body": {
+        "role": "neutral",
+        "displayName": "Component Body",
+        "canonical": "#14243f",
+        "oklch": "oklch(26.2% 0.055 260.3)",
+        "tonalRamp": [
+          "#010922",
+          "#14243f",
+          "#2e405d",
+          "#4b5e7d",
+          "#6a7e9f",
+          "#8b9fc2",
+          "#b0c5e9",
+          "#e6effe"
+        ],
+        "referenceSource": "https://coded-reels-playbook.vercel.app/ --navy"
+      },
+      "component-body-lit": {
+        "role": "neutral",
+        "displayName": "Lit Component Body",
+        "canonical": "#1b3055",
+        "oklch": "oklch(31.2% 0.072 260.9)",
+        "tonalRamp": [
+          "#000826",
+          "#0e2346",
+          "#293f66",
+          "#465e86",
+          "#657ea8",
+          "#859fcc",
+          "#aac5f4",
+          "#e6effe"
+        ],
+        "referenceSource": "https://coded-reels-playbook.vercel.app/ --navy-3"
+      },
+      "navy-2": {
+        "role": "neutral",
+        "displayName": "Navy 2",
+        "canonical": "#16294a",
+        "oklch": "oklch(28.4% 0.066 260.7)",
+        "tonalRamp": [
+          "#000826",
+          "#102343",
+          "#2b4062",
+          "#485e83",
+          "#677ea5",
+          "#879fc8",
+          "#acc5f0",
+          "#e6effe"
+        ],
+        "referenceSource": "https://coded-reels-playbook.vercel.app/ --navy-2"
+      },
+      "silkscreen": {
+        "role": "neutral",
+        "displayName": "Silkscreen White",
+        "canonical": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#7d7d7d",
+          "#9e9e9e",
+          "#c4c4c4",
+          "#eeeeee"
+        ],
+        "referenceSource": "https://coded-reels-playbook.vercel.app/ --white"
+      },
+      "ink-1": {
+        "role": "neutral",
+        "displayName": "Ink 1",
+        "canonical": "#e6edff",
+        "oklch": "oklch(94.6% 0.025 268.8)",
+        "tonalRamp": [
+          "#070b16",
+          "#1f2431",
+          "#3a3f4e",
+          "#585d6c",
+          "#777d8d",
+          "#989eaf",
+          "#bdc4d5",
+          "#e8eeff"
+        ],
+        "referenceSource": "https://coded-reels-playbook.vercel.app/ light #e6edff"
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Ink 2",
+        "canonical": "#cdd9f5",
+        "oklch": "oklch(88.5% 0.041 267.1)",
+        "tonalRamp": [
+          "#050a1c",
+          "#1b2338",
+          "#363f56",
+          "#535d75",
+          "#727d96",
+          "#939eb9",
+          "#b8c4df",
+          "#e8eefe"
+        ],
+        "referenceSource": "https://coded-reels-playbook.vercel.app/ light #cdd9f5"
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "canonical": "#9fb2d4",
+        "oklch": "oklch(76.1% 0.053 262.1)",
+        "tonalRamp": [
+          "#020921",
+          "#15233e",
+          "#30405c",
+          "#4d5e7c",
+          "#6c7e9e",
+          "#8d9fc0",
+          "#b2c5e8",
+          "#e6efff"
+        ],
+        "referenceSource": "https://coded-reels-playbook.vercel.app/ --muted"
+      },
+      "muted-2": {
+        "role": "neutral",
+        "displayName": "Muted 2",
+        "canonical": "#6f83a8",
+        "oklch": "oklch(60.8% 0.061 262.5)",
+        "tonalRamp": [
+          "#010824",
+          "#132341",
+          "#2e3f60",
+          "#4b5e81",
+          "#6a7ea2",
+          "#8a9fc5",
+          "#afc5ed",
+          "#e6effe"
+        ],
+        "referenceSource": "https://coded-reels-playbook.vercel.app/ --muted-2"
+      },
+      "print-blue": {
+        "role": "print",
+        "displayName": "Print Blue",
+        "canonical": "#004aa3",
+        "oklch": "oklch(42.8% 0.158 257.9)",
+        "tonalRamp": [
+          "#000a21",
+          "#002151",
+          "#023c84",
+          "#175ab4",
+          "#3b7bd9",
+          "#5c9eff",
+          "#a1c6fd",
+          "#e5effe"
+        ],
+        "referenceSource": "https://coded-reels-playbook.vercel.app/ --blue"
+      },
+      "print-red": {
+        "role": "print",
+        "displayName": "Print Red",
+        "canonical": "#c23030",
+        "oklch": "oklch(53.9% 0.183 25.9)",
+        "tonalRamp": [
+          "#1f0001",
+          "#4a0206",
+          "#7a0a11",
+          "#ad161e",
+          "#d4433f",
+          "#fc6760",
+          "#fbada5",
+          "#ffe9e6"
+        ],
+        "referenceSource": "https://coded-reels-playbook.vercel.app/ --red-deep"
+      },
+      "print-green": {
+        "role": "print",
+        "displayName": "Print Green",
+        "canonical": "#37a06a",
+        "oklch": "oklch(63.1% 0.126 157.0)",
+        "tonalRamp": [
+          "#000f05",
+          "#022c18",
+          "#094c2d",
+          "#136f44",
+          "#26935e",
+          "#50b67e",
+          "#78dda3",
+          "#c5ffda"
+        ],
+        "referenceSource": "https://coded-reels-playbook.vercel.app/ --green"
+      },
+      "print-mauve": {
+        "role": "print",
+        "displayName": "Print Mauve",
+        "canonical": "#a85a66",
+        "oklch": "oklch(56.2% 0.102 11.1)",
+        "tonalRamp": [
+          "#1d0106",
+          "#490117",
+          "#6b2332",
+          "#8d424f",
+          "#b1626e",
+          "#d6838e",
+          "#ffa8b4",
+          "#ffe8ea"
+        ],
+        "referenceSource": "https://coded-reels-playbook.vercel.app/ --mauve"
+      },
+      "print-indigo": {
+        "role": "print",
+        "displayName": "Print Indigo",
+        "canonical": "#3e50dd",
+        "oklch": "oklch(50.9% 0.213 270.9)",
+        "tonalRamp": [
+          "#040131",
+          "#120272",
+          "#221cad",
+          "#3746d3",
+          "#526bf9",
+          "#7c97fd",
+          "#afc2fc",
+          "#e9eefe"
+        ],
+        "referenceSource": "https://coded-reels-playbook.vercel.app/ --indigo"
+      },
+      "silkscreen-soft": {
+        "role": "neutral",
+        "displayName": "Silkscreen Soft",
+        "canonical": "rgba(255, 255, 255, 0.72)",
+        "derivedFrom": "silkscreen",
+        "referenceSource": "https://coded-reels-playbook.vercel.app/ --white at alpha"
+      },
+      "silkscreen-line": {
+        "role": "neutral",
+        "displayName": "Silkscreen Line",
+        "canonical": "rgba(255, 255, 255, 0.42)",
+        "derivedFrom": "silkscreen",
+        "referenceSource": "https://coded-reels-playbook.vercel.app/ --white at alpha"
+      },
+      "silkscreen-faint": {
+        "role": "neutral",
+        "displayName": "Silkscreen Faint",
+        "canonical": "rgba(255, 255, 255, 0.14)",
+        "derivedFrom": "silkscreen",
+        "referenceSource": "https://coded-reels-playbook.vercel.app/ --white at alpha"
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Line",
+        "canonical": "rgba(255, 255, 255, 0.12)",
+        "referenceSource": "https://coded-reels-playbook.vercel.app/ --line"
+      },
+      "line-soft": {
+        "role": "neutral",
+        "displayName": "Line Soft",
+        "canonical": "rgba(255, 255, 255, 0.07)",
+        "derivedFrom": "line",
+        "referenceSource": "https://coded-reels-playbook.vercel.app/ --line at lower alpha"
+      }
     },
-    "font": {
-      "sans": "IBM Plex Sans, Helvetica Neue, Arial, system-ui, sans-serif",
-      "mono": "IBM Plex Mono, ui-monospace, SF Mono, Menlo, monospace",
-      "trackLabel": "0.18em", "trackTight": "-0.022em", "trackTighter": "-0.032em"
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "One per page: the overview claim, the reference claim, hero slides."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section heads below the board, datasheet title, standard slide titles."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Reference page blocks."
+      },
+      "section": {
+        "displayName": "Section",
+        "purpose": "Numbered datasheet sections."
+      },
+      "lede": {
+        "displayName": "Lede",
+        "purpose": "The sentence under a display or headline; max 52ch, muted."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Teaching prose; max 68ch."
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "Copper pad and silk buttons."
+      },
+      "silkscreen": {
+        "displayName": "Silkscreen",
+        "purpose": "Uppercase functional data: designators in text, net names, part lines, table heads, legends. Never above a heading."
+      },
+      "designator": {
+        "displayName": "Designator",
+        "purpose": "Week numbers WK1–WK5 and part designators U#/J#."
+      },
+      "instrument-digits": {
+        "displayName": "Instrument Digits",
+        "purpose": "Zero-padded copper counts that roll on change."
+      },
+      "console": {
+        "displayName": "Console",
+        "purpose": "Console wells and HTTP panes."
+      }
     },
-    "radius": { "r1": "6px", "r2": "10px", "r3": "14px", "r4": "20px" },
-    "ease": "cubic-bezier(.22,.61,.36,1)"
+    "shadows": [
+      {
+        "name": "part-on-board",
+        "value": "0 6px 14px -6px rgba(0, 8, 28, 0.85), 0 2px 3px rgba(0, 8, 28, 0.5)",
+        "purpose": "Raised IC chip bodies, probe readout, net panel, schematic parts (--sh-2)."
+      },
+      {
+        "name": "part-lifted",
+        "value": "0 12px 24px -12px rgba(0, 8, 28, 0.95), 0 2px 3px rgba(0, 8, 28, 0.5)",
+        "purpose": "Hovered or probed chip, with translateY(-2px)."
+      },
+      {
+        "name": "board-on-desk",
+        "value": "0 30px 70px -28px rgba(0, 8, 28, 0.9)",
+        "purpose": "The board, search palette, overlays, lone panels (--sh-3)."
+      },
+      {
+        "name": "gold-pad-glow",
+        "value": "inset 0 -2px 0 rgba(0, 17, 47, 0.18), 0 6px 18px -10px rgba(224, 180, 92, 0.9)",
+        "purpose": "Primary button only."
+      },
+      {
+        "name": "signal-halo",
+        "value": "0 0 0 2px rgba(121, 226, 236, 0.22)",
+        "purpose": "Live LED (2px), probe tip (3px), current slide via (4px), live net pad (5px)."
+      },
+      {
+        "name": "signal-trace-glow",
+        "value": "stroke #79e2ec, stroke-width 8, opacity 0.12",
+        "purpose": "Under the live bus path on the board."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(0.22, 0.61, 0.36, 1)",
+        "purpose": "Reference easing; hovers, lifts, bar hide, chevrons."
+      },
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Entrances: digit roll, slide, palette, overlay."
+      },
+      {
+        "name": "signal-pulse",
+        "value": "46px white dash along the live trace; duration max(1800ms, 2.2ms per px); linear; infinite; travels 0–78% then rests",
+        "purpose": "The one authored ambient motion. Not started when prefers-reduced-motion: reduce matches."
+      },
+      {
+        "name": "digit-roll",
+        "value": "0.42s ease-out, translateY(-55%) and opacity 0 to rest",
+        "purpose": "An instrument digit that changed value rolls in once."
+      },
+      {
+        "name": "slide-in",
+        "value": "0.35s ease-out, translateY(8px) and opacity 0 to rest",
+        "purpose": "Presenter slide entrance."
+      },
+      {
+        "name": "panel-in",
+        "value": "0.16s–0.18s ease-out, translateY(-6px) and opacity 0 to rest",
+        "purpose": "Search palette and presenter overlays."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation and transition durations 0.001ms, one iteration",
+        "purpose": "Global prefers-reduced-motion override."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "board-stack",
+        "value": "1180px",
+        "purpose": "Weeks stack in one column; parts three across."
+      },
+      {
+        "name": "datasheet-head",
+        "value": "1080px"
+      },
+      {
+        "name": "single-column",
+        "value": "960px",
+        "purpose": "Top band, tables, test points and datasheet rail collapse."
+      },
+      {
+        "name": "diagram-stack",
+        "value": "880px"
+      },
+      {
+        "name": "footer",
+        "value": "760px",
+        "purpose": "Footer grid and presenter meta collapse."
+      },
+      {
+        "name": "board-narrow",
+        "value": "680px",
+        "purpose": "Parts stack; board name hides."
+      },
+      {
+        "name": "content-narrow",
+        "value": "640px"
+      },
+      {
+        "name": "mobile",
+        "value": "560px"
+      },
+      {
+        "name": "mobile-small",
+        "value": "380px"
+      }
+    ],
+    "layout": {
+      "maxWidth": "1360px",
+      "gutter": "clamp(16px, 3.5vw, 40px)",
+      "readMeasure": "68ch",
+      "traceChamfer": "12px at 45 degrees",
+      "busStroke": "2.5px",
+      "ratsnestStroke": "1.5px dashed 5 5"
+    },
+    "print": {
+      "stock": "#ffffff",
+      "ink": "#00112f",
+      "bodyText": "#14243f",
+      "muted": "#1b3055",
+      "muted2": "#16294a",
+      "copperAndSignal": "#004aa3",
+      "attacker": "#c23030",
+      "valid": "#37a06a",
+      "caution": "#a85a66",
+      "evidence": "#004aa3",
+      "network": "#004aa3",
+      "identity": "#3e50dd",
+      "bodySize": "10.5pt"
+    },
+    "retired": [
+      "Blueprint Console direction",
+      "ruled grid / graticule background exception",
+      "single hero gradient word exception",
+      "invented, non-reference panel navy"
+    ]
   },
-  "semanticRule": "Semantic colour is always paired with an icon and a text label; never colour alone.",
-  "exceptions": [
-    "Ruled grid background is the direction's measurement surface (graticule), kept faint.",
-    "A single hero gradient word mirrors the CODED reference hero; used once."
-  ]
+  "components": [
+    {
+      "name": "Primary Button (copper pad)",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Solid gold copper with navy text; one per decision area (Resume, Present, Next).",
+      "html": "<button class=\"ds-btn ds-btn-primary\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" aria-hidden=\"true\"><path d=\"M5 3.5v9l7-4.5z\" stroke-linejoin=\"round\"/></svg> Resume U5</button>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; gap: 9px; font: 600 0.92rem/1.2 'IBM Plex Sans', 'Helvetica Neue', Arial, system-ui, sans-serif; letter-spacing: 0.005em; padding: 10px 16px; border-radius: 6px; cursor: pointer; transition: background 0.16s cubic-bezier(0.22, 0.61, 0.36, 1), border-color 0.16s, color 0.16s, transform 0.12s; } .ds-btn-primary { color: #00112f; background: var(--copper, #e0b45c); border: 1px solid var(--copper, #e0b45c); box-shadow: inset 0 -2px 0 rgba(0, 17, 47, 0.18), 0 6px 18px -10px rgba(224, 180, 92, 0.9); } .ds-btn-primary:hover { background: var(--copper-2, #c89a45); border-color: var(--copper-2, #c89a45); } .ds-btn:active { transform: translateY(1px); } .ds-btn:focus-visible { outline: 2px solid var(--signal, #79e2ec); outline-offset: 3px; }"
+    },
+    {
+      "name": "Silk Button",
+      "kind": "button",
+      "refersTo": "button-silk",
+      "description": "Transparent with a silkscreen outline; the secondary action.",
+      "html": "<button class=\"ds-btn-silk\">Read datasheet</button>",
+      "css": ".ds-btn-silk { display: inline-flex; align-items: center; gap: 9px; font: 600 0.92rem/1.2 'IBM Plex Sans', 'Helvetica Neue', Arial, system-ui, sans-serif; padding: 10px 16px; border-radius: 6px; cursor: pointer; color: var(--ink-1, #e6edff); background: transparent; border: 1px solid var(--silk-line, rgba(255, 255, 255, 0.42)); transition: background 0.16s cubic-bezier(0.22, 0.61, 0.36, 1), border-color 0.16s, color 0.16s; } .ds-btn-silk:hover { border-color: var(--silk, #ffffff); color: #ffffff; background: rgba(255, 255, 255, 0.04); } .ds-btn-silk:active { transform: translateY(1px); } .ds-btn-silk:focus-visible { outline: 2px solid var(--signal, #79e2ec); outline-offset: 3px; }"
+    },
+    {
+      "name": "Chip with status LED",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Silkscreen tag; a status LED always sits next to a state word.",
+      "html": "<span class=\"ds-chip\"><i class=\"ds-led ds-led--live\"></i>Live</span> <span class=\"ds-chip ds-chip--valid\"><i class=\"ds-led ds-led--on\"></i>Done</span>",
+      "css": ".ds-chip { display: inline-flex; align-items: center; gap: 7px; font: 500 0.75rem/1.2 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 9px; border-radius: 4px; border: 1px solid var(--silk-faint, rgba(255, 255, 255, 0.14)); color: rgba(255, 255, 255, 0.72); } .ds-chip--valid { color: var(--valid, #5ad0a0); border-color: rgba(90, 208, 160, 0.45); } .ds-led { width: 7px; height: 7px; border-radius: 2px; background: #1b3055; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12); } .ds-led--on { background: var(--valid, #5ad0a0); box-shadow: 0 0 0 2px rgba(90, 208, 160, 0.2); } .ds-led--live { background: var(--signal, #79e2ec); box-shadow: 0 0 0 2px rgba(121, 226, 236, 0.22); }"
+    },
+    {
+      "name": "IC chip part (theory, U#)",
+      "kind": "card",
+      "refersTo": "part-ic",
+      "description": "A theory session: raised navy body, four copper pins each side, designator + LED + state on the top row.",
+      "html": "<a class=\"ds-part\" href=\"#\"><span class=\"ds-part__pins ds-part__pins--l\"><i></i><i></i><i></i><i></i></span><span class=\"ds-part__pins ds-part__pins--r\"><i></i><i></i><i></i><i></i></span><span class=\"ds-part__top\"><b>U5</b><i class=\"ds-part__led\"></i><span class=\"ds-part__state\">Live</span></span><span class=\"ds-part__title\">Web Vulnerabilities &amp; Impact</span><span class=\"ds-part__line\">24 Nov · Tue · 3h</span></a>",
+      "css": ".ds-part { position: relative; display: flex; flex-direction: column; gap: 7px; width: 220px; min-height: 118px; padding: 12px 14px 12px 16px; border-radius: 6px; text-decoration: none; background: var(--body, #14243f); box-shadow: 0 0 0 1px var(--signal, #79e2ec), 0 6px 14px -6px rgba(0, 8, 28, 0.85), 0 2px 3px rgba(0, 8, 28, 0.5); transition: transform 0.16s cubic-bezier(0.22, 0.61, 0.36, 1), background 0.16s, box-shadow 0.16s; } .ds-part:hover { transform: translateY(-2px); background: var(--body-2, #1b3055); } .ds-part:focus-visible { outline: 2px solid var(--signal, #79e2ec); outline-offset: 4px; } .ds-part__pins { position: absolute; top: 16px; bottom: 16px; display: flex; flex-direction: column; justify-content: space-between; } .ds-part__pins--l { left: -6px; } .ds-part__pins--r { right: -6px; } .ds-part__pins i { width: 6px; height: 4px; border-radius: 1px; background: var(--copper-2, #c89a45); } .ds-part__top { display: flex; align-items: center; gap: 8px; } .ds-part__top b { font: 600 0.75rem 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace; letter-spacing: 0.08em; color: var(--silk, #ffffff); } .ds-part__led { width: 7px; height: 7px; border-radius: 2px; background: var(--signal, #79e2ec); box-shadow: 0 0 0 2px rgba(121, 226, 236, 0.22); } .ds-part__state { margin-left: auto; font: 0.75rem 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace; letter-spacing: 0.12em; text-transform: uppercase; color: var(--signal, #79e2ec); } .ds-part__title { color: var(--ink-1, #e6edff); font: 600 0.94rem/1.25 'IBM Plex Sans', 'Helvetica Neue', Arial, system-ui, sans-serif; } .ds-part__line { margin-top: auto; font: 0.75rem 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted, #9fb2d4); }"
+    },
+    {
+      "name": "Test header part (lab, J#)",
+      "kind": "card",
+      "refersTo": "part-header",
+      "description": "A lab session: flat silkscreen outline with a row of copper ring pads; title in copper. Done turns the rings green.",
+      "html": "<a class=\"ds-hdr\" href=\"#\"><span class=\"ds-hdr__pads\"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class=\"ds-hdr__top\"><b>J3</b><span class=\"ds-hdr__state\">Queued</span></span><span class=\"ds-hdr__title\">Web Exploitation Lab</span><span class=\"ds-hdr__line\">25 Nov · Wed · 4h · Lab</span></a>",
+      "css": ".ds-hdr { display: flex; flex-direction: column; gap: 7px; width: 220px; min-height: 118px; padding: 12px 14px 12px 16px; border-radius: 6px; text-decoration: none; background: var(--mask, #00112f); border: 1px solid var(--silk-line, rgba(255, 255, 255, 0.42)); transition: transform 0.16s cubic-bezier(0.22, 0.61, 0.36, 1), border-color 0.16s; } .ds-hdr:hover { transform: translateY(-2px); border-color: var(--copper, #e0b45c); } .ds-hdr:focus-visible { outline: 2px solid var(--signal, #79e2ec); outline-offset: 4px; } .ds-hdr__pads { display: flex; gap: 7px; } .ds-hdr__pads i { width: 11px; height: 11px; border-radius: 50%; border: 2.5px solid var(--copper, #e0b45c); background: var(--desk, #00081c); } .ds-hdr__top { display: flex; align-items: center; gap: 8px; } .ds-hdr__top b { font: 600 0.75rem 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace; letter-spacing: 0.08em; color: var(--silk, #ffffff); } .ds-hdr__state { margin-left: auto; font: 0.75rem 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted-2, #6f83a8); } .ds-hdr__title { color: var(--copper, #e0b45c); font: 600 0.94rem/1.25 'IBM Plex Sans', 'Helvetica Neue', Arial, system-ui, sans-serif; } .ds-hdr__line { margin-top: auto; font: 0.75rem 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted-2, #6f83a8); }"
+    },
+    {
+      "name": "Bus segment states + via",
+      "kind": "custom",
+      "refersTo": "board",
+      "description": "Proven (solid cyan over a faint glow), probing (dotted cyan), ratsnest (dashed copper), inner-layer ratsnest (dashed blue), and a via with a dark drill; 45-degree chamfers.",
+      "html": "<svg class=\"ds-bus\" viewBox=\"0 0 360 120\" width=\"360\" height=\"120\" role=\"img\" aria-label=\"Bus segment states\"><path class=\"ds-glow\" d=\"M10 20H110L122 32V48\"/><path class=\"ds-proven\" d=\"M10 20H110L122 32V48\"/><path class=\"ds-probe\" d=\"M122 48V60L134 72H200\"/><path class=\"ds-rats\" d=\"M200 72H260\"/><path class=\"ds-rats ds-inner\" d=\"M260 72H300L312 84V110\"/><g class=\"ds-via\"><circle cx=\"260\" cy=\"72\" r=\"6.5\"/><circle class=\"ds-drill\" cx=\"260\" cy=\"72\" r=\"2.4\"/><text x=\"260\" y=\"58\">L2</text></g></svg>",
+      "css": ".ds-bus { background: var(--mask, #00112f); border-radius: 12px; } .ds-bus path { fill: none; stroke-linejoin: round; } .ds-glow { stroke: var(--signal, #79e2ec); stroke-width: 8; opacity: 0.12; } .ds-proven { stroke: var(--signal, #79e2ec); stroke-width: 2.5; } .ds-probe { stroke: var(--signal, #79e2ec); stroke-width: 2.5; stroke-dasharray: 1 6; stroke-linecap: round; } .ds-rats { stroke: var(--copper-2, #c89a45); stroke-width: 1.5; stroke-dasharray: 5 5; opacity: 0.7; } .ds-rats.ds-inner { stroke: var(--blue-soft, #6f9ce8); opacity: 0.6; } .ds-via circle { fill: var(--blue-soft, #6f9ce8); } .ds-via .ds-drill { fill: var(--desk, #00081c); } .ds-via text { fill: var(--blue-soft, #6f9ce8); font: 600 12px 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace; letter-spacing: 0.06em; text-anchor: middle; }"
+    },
+    {
+      "name": "Probe readout",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "The focused part promoted face-out: probe tip, designator and title on one heading row, then pins.",
+      "html": "<aside class=\"ds-probe\"><h2 class=\"ds-probe__title\"><i class=\"ds-probe__tip\"></i><span class=\"ds-probe__des\">U5</span>Web Vulnerabilities &amp; Impact</h2><p class=\"ds-probe__out\">Explain why an observed response supports, or fails to support, a vulnerability claim.</p><dl class=\"ds-probe__pins\"><div><dt>Date</dt><dd>Tuesday 24 Nov</dd></div><div><dt>Length</dt><dd>3 hours</dd></div></dl></aside>",
+      "css": ".ds-probe { max-width: 420px; background: var(--mask, #00112f); border: 1px solid var(--line, rgba(255, 255, 255, 0.12)); border-radius: 12px; padding: 18px 20px 16px; box-shadow: 0 6px 14px -6px rgba(0, 8, 28, 0.85), 0 2px 3px rgba(0, 8, 28, 0.5); } .ds-probe__title { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; margin: 0 0 8px; color: #ffffff; font: 700 1.4rem/1.08 'IBM Plex Sans', 'Helvetica Neue', Arial, system-ui, sans-serif; letter-spacing: -0.025em; } .ds-probe__tip { align-self: center; width: 9px; height: 9px; border-radius: 50%; background: var(--signal, #79e2ec); box-shadow: 0 0 0 3px rgba(121, 226, 236, 0.22); } .ds-probe__des { font: 600 0.95rem 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace; letter-spacing: 0.04em; color: var(--signal, #79e2ec); } .ds-probe__out { margin: 0; color: var(--muted, #9fb2d4); font: 0.95rem/1.5 'IBM Plex Sans', 'Helvetica Neue', Arial, system-ui, sans-serif; } .ds-probe__pins { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 18px; margin: 16px 0 0; padding-top: 14px; border-top: 1px dashed var(--silk-faint, rgba(255, 255, 255, 0.14)); } .ds-probe__pins dt { font: 500 0.75rem 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted-2, #6f83a8); } .ds-probe__pins dd { margin: 2px 0 0; color: var(--ink-1, #e6edff); font: 500 0.92rem 'IBM Plex Sans', 'Helvetica Neue', Arial, system-ui, sans-serif; }"
+    },
+    {
+      "name": "Semantic callout (icon + word)",
+      "kind": "custom",
+      "refersTo": "panel",
+      "description": "A teaching callout: channel icon and channel word lead, then a title and body. Colour never travels alone.",
+      "html": "<aside class=\"ds-callout\" role=\"note\"><div class=\"ds-callout__hd\"><svg viewBox=\"0 0 16 16\" width=\"17\" height=\"17\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" aria-hidden=\"true\"><path d=\"M8 2.2 14.3 13.4H1.7z\" stroke-linejoin=\"round\"/><path d=\"M8 6.5v3.2M8 11.6v.1\" stroke-linecap=\"round\"/></svg><span class=\"ds-callout__label\">Caution</span><strong>Scope before you scan</strong></div><p>Confirm the target range is in the engagement letter before any active probe.</p></aside>",
+      "css": ".ds-callout { --t: var(--copper, #e0b45c); max-width: 520px; border: 1px solid rgba(224, 180, 92, 0.45); border-radius: 10px; background: rgba(224, 180, 92, 0.07); padding: 13px 16px 14px; } .ds-callout__hd { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin-bottom: 6px; color: var(--t); } .ds-callout__label { font: 0.75rem 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace; letter-spacing: 0.14em; text-transform: uppercase; color: var(--t); } .ds-callout__hd strong { color: #ffffff; font: 700 1.02rem 'IBM Plex Sans', 'Helvetica Neue', Arial, system-ui, sans-serif; } .ds-callout p { margin: 0; color: var(--ink-2, #cdd9f5); font: 0.97rem/1.6 'IBM Plex Sans', 'Helvetica Neue', Arial, system-ui, sans-serif; }"
+    },
+    {
+      "name": "Presenter via trace",
+      "kind": "nav",
+      "refersTo": "board",
+      "description": "Presenter progress: one via per slide on a copper wire; behind is cyan, the current via has a white drill ring and halo.",
+      "html": "<div class=\"ds-ptrace\" role=\"group\" aria-label=\"Slides\"><button class=\"ds-via is-done\" aria-label=\"Slide 1\"></button><i class=\"ds-wire is-live\"></i><button class=\"ds-via is-on\" aria-label=\"Slide 2\" aria-current=\"step\"></button><i class=\"ds-wire\"></i><button class=\"ds-via\" aria-label=\"Slide 3\"></button><i class=\"ds-wire\"></i><button class=\"ds-via\" aria-label=\"Slide 4\"></button></div>",
+      "css": ".ds-ptrace { display: flex; align-items: center; padding: 10px; background: var(--desk, #00081c); } .ds-wire { width: 26px; height: 2.5px; background: var(--copper-2, #c89a45); opacity: 0.55; } .ds-wire.is-live { background: var(--signal, #79e2ec); opacity: 1; } .ds-via { width: 14px; height: 14px; padding: 0; border: 0; border-radius: 50%; cursor: pointer; background: var(--copper-2, #c89a45); box-shadow: inset 0 0 0 4px var(--copper-2, #c89a45), inset 0 0 0 7px var(--desk, #00081c); transition: transform 0.15s, box-shadow 0.15s, background 0.15s; } .ds-via:hover { transform: scale(1.25); } .ds-via:focus-visible { outline: 2px solid var(--signal, #79e2ec); outline-offset: 3px; } .ds-via.is-done { background: var(--signal, #79e2ec); box-shadow: inset 0 0 0 4px var(--signal, #79e2ec), inset 0 0 0 7px var(--desk, #00081c); } .ds-via.is-on { background: var(--signal, #79e2ec); box-shadow: inset 0 0 0 4px var(--signal, #79e2ec), inset 0 0 0 7px #ffffff, 0 0 0 4px rgba(121, 226, 236, 0.22); transform: scale(1.2); }"
+    },
+    {
+      "name": "Masthead navigation",
+      "kind": "nav",
+      "description": "Sticky desk-coloured top edge; active link is white with a copper underline.",
+      "html": "<nav class=\"ds-nav\"><span class=\"ds-nav__logo\">CODED</span><a class=\"is-active\" href=\"#\">Board</a><a href=\"#\">Attack path</a><button class=\"ds-nav__search\">Search <kbd>/</kbd></button></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; gap: 2px; height: 60px; padding: 0 16px; background: rgba(0, 8, 28, 0.86); border-bottom: 1px solid rgba(255, 255, 255, 0.07); font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, system-ui, sans-serif; } .ds-nav__logo { margin-right: auto; font: 600 0.84rem 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace; letter-spacing: 0.12em; padding: 5px 9px; border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 5px; color: #ffffff; } .ds-nav a { font-size: 0.88rem; font-weight: 500; color: var(--muted, #9fb2d4); text-decoration: none; padding: 7px 12px; border-radius: 7px; } .ds-nav a:hover { color: var(--ink-1, #e6edff); background: rgba(255, 255, 255, 0.05); } .ds-nav a.is-active { color: #ffffff; box-shadow: inset 0 -2px 0 var(--copper, #e0b45c); border-radius: 7px 7px 0 0; } .ds-nav a:focus-visible, .ds-nav__search:focus-visible { outline: 2px solid var(--signal, #79e2ec); outline-offset: 3px; } .ds-nav__search { display: inline-flex; align-items: center; gap: 8px; margin-left: 8px; font: 0.86rem 'IBM Plex Sans', 'Helvetica Neue', Arial, system-ui, sans-serif; color: var(--muted, #9fb2d4); background: transparent; border: 1px solid var(--line, rgba(255, 255, 255, 0.12)); border-radius: 8px; padding: 7px 10px; cursor: pointer; } .ds-nav__search:hover { color: var(--ink-1, #e6edff); border-color: rgba(200, 154, 69, 0.5); } .ds-nav__search kbd { font: 0.75rem/1 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace; color: var(--muted, #9fb2d4); border: 1px solid var(--line, rgba(255, 255, 255, 0.12)); border-bottom-width: 2px; border-radius: 5px; padding: 3px 6px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Signal Board",
+    "overview": "The course is one circuit board, and a penetration test is a signal routed through it. Every session is a component soldered onto a single bus; pivoting is a via down to an inner layer; validating a claim is probing a test point; a path that has not been proven yet is a thin ratsnest line until it becomes routed copper. The student reads their own progress as how far the signal has travelled. This world replaces the retired Blueprint Console in full: there is no ruled grid background, no corner ticks, no gradient text and no mono eyebrow above headings.\n\nThree inks own the page, all taken from the CODED reference (https://coded-reels-playbook.vercel.app/): navy solder mask, gold copper and white silkscreen. Cyan is the fourth ink and the rarest. On the board, the diagrams and the chrome it means only \"live signal\": the powered trace, the travelling pulse, the active probe, the focus ring. The board sits on a darker desk (#00081c), so the solder mask reads as a physical object with mounting holes, edge connectors and a silkscreened part number. The world stays recognisable with all content removed: orthogonal traces with 45-degree chamfers, gold pad rows on chip bodies, round vias with a dark drill hole, mounting holes and silkscreen outlines.\n\nDensity is a working instrument, not a poster. A compact headline band (one claim, two actions, one probe readout) sits above a board that fills the rest of the first viewport. Study mode reads as a component datasheet. Presenter mode gives the slide the whole screen and shows progress as a trace with one via per slide. The print path swaps to white stock with navy ink. The world refuses the hacker-terminal costume (phosphor green, Matrix rain, fake CLI chrome) and the generic dark dashboard.",
+    "keyCharacteristics": [
+      "Three inks (navy mask, gold copper, white silkscreen); cyan is reserved for the live signal on the board and in the chrome.",
+      "Every connection is drawn in one of three states: proven (solid cyan), probing (dotted cyan) or ratsnest (thin dashed copper, or dashed blue on the inner layer).",
+      "Theory sessions are IC chips with designator `U#`; labs are test headers with designator `J#`.",
+      "Silkscreen type (IBM Plex Mono, uppercase, tracked) carries functional data only and always sits on the same row as what it labels.",
+      "Semantic colour lives inside the teaching content and is always paired with an icon and a word.",
+      "One ambient motion, the signal pulse, turned off under `prefers-reduced-motion`."
+    ],
+    "rules": [
+      {
+        "name": "The Three Inks Rule",
+        "body": "Navy solder mask, gold copper and white silkscreen own every surface. Any other colour on screen is either the live signal or a labelled semantic channel inside teaching content.",
+        "section": "colors"
+      },
+      {
+        "name": "The Live Signal Rule",
+        "body": "On the board, the diagrams' state and the chrome, cyan means only \"the signal has reached here\" or \"you are here\": proven trace, probing segment, pulse, active probe, focus, current slide. Never use it as decoration, as a heading colour or as a background fill.",
+        "section": "colors"
+      },
+      {
+        "name": "The Icon-and-Word Rule",
+        "body": "A semantic channel is never carried by colour alone. Callouts pair the channel's icon with its word (Evidence, Attacker, Validated, Caution, Network, Identity); list items, steps and pinout rows pair a coloured pad or ring with text; LEDs always sit next to a state word.",
+        "section": "colors"
+      },
+      {
+        "name": "The Reference-Only Rule",
+        "body": "Every colour comes from the CODED reference palette. Do not invent navies, panel tints or in-between values; if a surface needs a navy, it is one of the reference navies.",
+        "section": "colors"
+      },
+      {
+        "name": "The Silkscreen Rule",
+        "body": "Mono uppercase text is functional data printed on the part, never a kicker. Designators and tags sit on the heading row (probe title row, datasheet section row, reference stage heading) or in a slide's silkscreen footer. Never stack a label above a heading.",
+        "section": "typography"
+      },
+      {
+        "name": "The Legibility Floor Rule",
+        "body": "No HTML text below 0.75rem and no SVG text below 12px. Silkscreen gets small by being 0.75rem and tracked, never by going smaller.",
+        "section": "typography"
+      },
+      {
+        "name": "The Plain Claim Rule",
+        "body": "Headlines are plain, bold, tightly tracked sans: no gradient fill, no outline type, no glow, no mono display.",
+        "section": "typography"
+      },
+      {
+        "name": "The Parts Sit On The Board Rule",
+        "body": "A shadow means \"this component is soldered on top\". Chips get it; test headers, panels and tables do not. Shadows always fall downward and are tinted navy-black, never grey and never zero-offset.",
+        "section": "elevation"
+      },
+      {
+        "name": "The One Glow Rule",
+        "body": "Only the signal glows. Apart from the gold pad under the primary button, no element gets a coloured halo.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Chamfer Rule",
+        "body": "Every routed line is orthogonal with 45-degree corner cuts. No bezier curves and no free diagonals.",
+        "section": "shapes"
+      },
+      {
+        "name": "The Through-Hole Rule",
+        "body": "A circle on this board is a hole or a pad: it has a copper ring and a dark centre, or it is a solid copper or signal dot. Never use a circle as a generic avatar or decoration.",
+        "section": "shapes"
+      },
+      {
+        "name": "The One Pulse Rule",
+        "body": "The only authored ambient motion is the signal pulse: a 46px white dash that travels the live trace once every max(1.8s, 2.2ms per px) on a linear loop with a pause at the end. It is checked against `prefers-reduced-motion` before it starts and never runs when the user reduces motion. Everything else is a response to a state change: digit roll (0.42s), slide entrance (0.35s, 8px rise), palette and overlay entrance (0.16 to 0.18s), hover lifts and colour transitions (0.15 to 0.2s) on `cubic-bezier(0.22, 0.61, 0.36, 1)`. A global reduced-motion rule cuts all of these to near zero.",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "Do build every surface from the three inks: solder mask #00112f on desk #00081c, gold copper #e0b45c / #c89a45, silkscreen #ffffff.",
+      "Do spend cyan #79e2ec only where the signal is live or where the user is now (on the board, diagrams and chrome); inside teaching content it is the Network channel, with icon and word.",
+      "Do draw every connection in one of the three states (proven solid cyan, probing dotted cyan, ratsnest dashed copper or inner-layer blue) and drop a via at each layer or week crossing.",
+      "Do designate theory as `U#` chips and labs as `J#` headers wherever a session is named (board, probe, datasheet, presenter, pager).",
+      "Do put silkscreen designators and tags on the heading row or in the slide's silkscreen footer.",
+      "Do pair every semantic colour with its icon and its word (Evidence, Attacker, Validated, Caution, Network, Identity).",
+      "Do keep HTML text at 0.75rem or larger and SVG text at 12px or larger.",
+      "Do keep muted-2 #6f83a8 text on the solder mask or the desk; on raised component bodies use muted #9fb2d4.",
+      "Do show counts as zero-padded copper instrument digits that roll only when the value changes.",
+      "Do keep the print path as white stock and navy ink, with the print-safe reference values for each channel."
+    ],
+    "donts": [
+      "Don't bring back the Blueprint Console: no ruled grid or graticule background, no corner tick marks, no mono eyebrow stacked above a heading.",
+      "Don't set any text in a gradient, including a single hero word.",
+      "Don't dress the page in the hacker-terminal costume: phosphor green, Matrix rain, scanlines, blinking cursors. Console wells are teaching content showing real commands, not a page style.",
+      "Don't introduce colours outside the CODED reference palette; no invented in-between navies.",
+      "Don't use cyan as decoration, for headings or as a large fill; don't let red become the dominant colour or carry meaning alone.",
+      "Don't route lines with curves or free diagonals; corners are 45-degree chamfers.",
+      "Don't add looping or ambient motion beyond the signal pulse, and never run the pulse under `prefers-reduced-motion`.",
+      "Don't give flat panels, tables or test headers a drop shadow; only raised parts cast one."
+    ]
+  }
 }

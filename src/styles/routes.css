@@ -102,7 +102,7 @@
 .ref-cta { margin-top: 40px; display: flex; gap: 12px; flex-wrap: wrap; }
 
 /* ---------- Search palette ---------- */
-.cmdk { position: fixed; inset: 0; z-index: 120; background: rgba(0, 4, 16, 0.76); backdrop-filter: blur(4px); display: flex; align-items: flex-start; justify-content: center; padding: clamp(40px, 12vh, 140px) 16px 16px; }
+.cmdk { position: fixed; inset: 0; z-index: 120; background: rgba(0, 8, 28, 0.76); backdrop-filter: blur(4px); display: flex; align-items: flex-start; justify-content: center; padding: clamp(40px, 12vh, 140px) 16px 16px; }
 .cmdk__panel { width: 100%; max-width: 680px; background: var(--mask); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--sh-3); overflow: hidden; animation: cmdk-in 0.16s var(--ease-out); }
 @keyframes cmdk-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
 .cmdk__input { display: flex; align-items: center; gap: 11px; padding: 15px 16px; border-bottom: 1px solid var(--line); }
