@@ -76,7 +76,7 @@ export function CommandMenu() {
           )}
           {!q.trim() && (
             <div className="cmdk__hint">
-              <span className="readout">Try</span>
+              <span className="silk silk--dim">Try</span>
               <div className="cmdk__chips">
                 {['SQL injection', 'privilege escalation', 'Kerberos', 'pivoting', 'evidence', 'reverse shell'].map((t) => (
                   <button key={t} className="cmdk__chip" onClick={() => setQ(t)}>{t}</button>

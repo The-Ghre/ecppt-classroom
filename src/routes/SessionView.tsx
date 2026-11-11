@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import { byId, adjacent } from '../content';
 import { STAGES } from '../content/course';
@@ -7,28 +7,25 @@ import { I } from '../components/icons';
 import { useProgress } from '../lib/useProgress';
 import { NotFound } from './NotFound';
 
-/* Study mode — a readable, continuous version of a session. Shows every
-   slide's presentation blocks plus its study-only depth, with a sticky
-   outline for jumping, source links, and a mark-complete control. */
+/* Study mode — each session reads as a component datasheet: a part
+   graphic and pin configuration up top, then numbered sections, figures,
+   application notes (the study-only depth), and references. */
 export function SessionView() {
   const { id } = useParams();
   const session = id ? byId(id) : undefined;
   const { progress, setComplete, patch } = useProgress();
   const { hash } = useLocation();
-  const [active, setActive] = useState<string>('');
+  const [active, setActive] = useState('');
+
+  useEffect(() => { if (session) patch({ lastSession: session.id }); }, [session, patch]);
 
   useEffect(() => {
-    if (session) patch({ lastSession: session.id });
-  }, [session, patch]);
-
-  useEffect(() => {
-    if (hash) {
-      const el = document.getElementById(hash.slice(1));
-      if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
-    }
+    if (!hash) return;
+    const target = hash.slice(1);
+    const el = document.getElementById(target) ?? document.getElementById(`sv-${target}`);
+    if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
   }, [hash, session]);
 
-  // scroll-spy for the outline
   useEffect(() => {
     if (!session) return;
     const obs = new IntersectionObserver(
@@ -36,70 +33,86 @@ export function SessionView() {
         const vis = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
         if (vis[0]) setActive(vis[0].target.id);
       },
-      { rootMargin: '-20% 0px -70% 0px', threshold: 0 },
+      { rootMargin: '-15% 0px -70% 0px' },
     );
     session.slides.forEach((s) => { const el = document.getElementById(`sv-${s.id}`); if (el) obs.observe(el); });
     return () => obs.disconnect();
   }, [session]);
 
-  const stageMeta = useMemo(() => (session ? STAGES.filter((s) => session.stages.includes(s.id)) : []), [session]);
-
   if (!session) return <NotFound />;
   const done = progress.completed.includes(session.id);
   const { prev, next } = adjacent(session.id);
+  const lab = session.kind === 'practical';
+  const des = `${lab ? 'J' : 'U'}${session.number}`;
+  const stages = STAGES.filter((s) => session.stages.includes(s.id));
 
   return (
-    <div className="sv">
+    <div className="ds">
       <div className="wrap">
-        {/* breadcrumb + header */}
-        <div className="sv-crumb">
-          <Link to="/" className="sv-crumb__link"><I.arrowL /> Roadmap</Link>
-          <span className="dimmer mono">WEEK {session.week} · SESSION {String(session.number).padStart(2, '0')}</span>
-        </div>
+        <nav className="ds-crumb" aria-label="Breadcrumb">
+          <Link to="/" className="ds-crumb__back"><I.arrowL /> Course board</Link>
+          <span className="silk silk--dim">Datasheet · {des} · week {session.week} · rev 26.11</span>
+        </nav>
 
-        <header className="sv-head">
-          <div className="sv-head__main">
-            <div className="row gap-3 wrap-flex" style={{ marginBottom: 12 }}>
-              <span className={`chip ${session.kind === 'practical' ? 'chip--practical' : 'chip--theory'}`}>
-                {session.kind === 'practical' ? <I.flag /> : <I.book />} {session.kind === 'practical' ? 'Practical' : 'Theory'}
-              </span>
-              {stageMeta.map((s) => (
-                <span key={s.id} className={`chip chip--${s.tone === 'cyan' ? 'cyan' : s.tone === 'violet' ? 'violet' : s.tone}`}>
-                  <I.dot /> {s.full}
-                </span>
-              ))}
-            </div>
-            <h1 className="h-xl sv-title">{session.title}</h1>
-            <p className="lede sv-topic">{session.topic}.</p>
-            <div className="sv-outcome">
-              <span className="readout readout--blue"><I.target /> LEARNING OUTCOME</span>
-              <p>{session.outcome}</p>
-            </div>
-            <div className="sv-actions">
-              <Link to={`/present/${session.id}`} className="btn btn--primary"><I.play /> Present this session</Link>
-              <button className={`btn ${done ? 'btn--ghost' : ''}`} onClick={() => setComplete(session.id, !done)} aria-pressed={done}>
-                {done ? <><I.valid /> Completed</> : <>Mark complete</>}
+        <header className="ds-head">
+          <div className={`ds-part ${lab ? 'ds-part--hdr' : ''}`} aria-hidden>
+            {lab ? (
+              <span className="ds-part__pads">{Array.from({ length: 5 }).map((_, i) => <i key={i} />)}</span>
+            ) : (
+              <>
+                <span className="ds-part__pins ds-part__pins--l"><i /><i /><i /><i /><i /></span>
+                <span className="ds-part__pins ds-part__pins--r"><i /><i /><i /><i /><i /></span>
+              </>
+            )}
+            <span className="ds-part__des">{des}</span>
+            <span className="ds-part__kind">{lab ? 'Lab header' : 'Theory'}</span>
+          </div>
+
+          <div className="ds-head__main">
+            <h1 className="h-xl ds-title">{session.title}</h1>
+            <p className="lede">{session.topic}.</p>
+            <dl className="ds-desc">
+              <dt className="silk silk--copper">Learning outcome</dt>
+              <dd>{session.outcome}</dd>
+            </dl>
+            <div className="ds-actions">
+              <Link to={`/present/${session.id}`} className="btn btn--primary"><I.play /> Present</Link>
+              <button className="btn" onClick={() => setComplete(session.id, !done)} aria-pressed={done}>
+                {done ? <><I.valid /> Completed</> : 'Mark complete'}
               </button>
-              <button className="btn btn--ghost btn--icon" onClick={() => window.print()} aria-label="Print / save as PDF" title="Print / save as PDF"><I.print /></button>
+              <button className="btn btn--icon" onClick={() => window.print()} aria-label="Print or save as PDF" title="Print or save as PDF"><I.print /></button>
             </div>
           </div>
-          <div className="sv-head__facts">
-            <Fact k="DATE" v={`${session.day} ${session.dateLabel}`} />
-            <Fact k="DURATION" v={`${session.durationHours} hours`} />
-            <Fact k="SLIDES" v={`${session.slides.length}`} />
-            <Fact k="FORMAT" v={session.kind === 'practical' ? 'Lab exercise' : 'Theory + exercises'} />
-          </div>
+
+          <figure className="ds-pins">
+            <figcaption className="silk silk--dim">Pin configuration</figcaption>
+            <dl>
+              {[
+                ['Date', `${session.day} ${session.dateLabel} 2026`],
+                ['Length', `${session.durationHours} hours ${lab ? 'lab' : 'theory'}`],
+                ['Slides', String(session.slides.length)],
+                ['Stage', stages.map((s) => s.full).join(' · ')],
+                ['Status', done ? 'Completed' : 'Open'],
+              ].map(([k, v], i) => (
+                <div key={k} className="ds-pins__row">
+                  <span className="ds-pins__n" aria-hidden>{i + 1}</span>
+                  <dt>{k}</dt>
+                  <dd className={k === 'Status' && done ? 'is-done' : ''}>{v}</dd>
+                </div>
+              ))}
+            </dl>
+          </figure>
         </header>
 
-        <div className="sv-body">
-          {/* outline rail */}
-          <aside className="sv-rail" aria-label="Session outline">
-            <div className="sv-rail__sticky">
-              <span className="readout readout--dim">ON THIS PAGE</span>
-              <nav className="sv-rail__nav">
+        <div className="ds-body">
+          <aside className="ds-rail" aria-label="Contents">
+            <div className="ds-rail__sticky">
+              <span className="silk silk--dim">Contents</span>
+              <nav className="ds-rail__nav">
                 {session.slides.map((s, i) => (
-                  <a key={s.id} href={`#sv-${s.id}`} className={`sv-rail__item ${active === `sv-${s.id}` ? 'is-active' : ''}`}>
-                    <span className="sv-rail__n mono">{String(i + 1).padStart(2, '0')}</span>
+                  <a key={s.id} href={`#sv-${s.id}`} className={`ds-rail__item ${active === `sv-${s.id}` ? 'is-active' : ''}`}
+                     onClick={(e) => { e.preventDefault(); document.getElementById(`sv-${s.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }}>
+                    <span className="ds-rail__n">{i + 1}</span>
                     <span>{s.title}</span>
                   </a>
                 ))}
@@ -107,66 +120,67 @@ export function SessionView() {
             </div>
           </aside>
 
-          {/* reading column */}
-          <article className="sv-read">
-            {session.slides.map((s, i) => (
-              <section key={s.id} id={`sv-${s.id}`} className="sv-slide" aria-label={`Slide ${i + 1}: ${s.title}`}>
-                <div className="sv-slide__hd">
-                  <span className="sv-slide__n mono">{String(i + 1).padStart(2, '0')} / {String(session.slides.length).padStart(2, '0')}</span>
-                  {s.tag && <span className="sv-slide__tag mono">{s.tag}</span>}
-                </div>
-                <h2 className="sv-slide__title h-md">{s.title}</h2>
-                {s.subtitle && <p className="sv-slide__sub dim">{s.subtitle}</p>}
-                {s.lead && <p className="sv-slide__lead">{s.lead}</p>}
-                <div className="blockflow sv-slide__blocks">
-                  <BlockList blocks={s.blocks} />
-                  {s.study && s.study.length > 0 && (
-                    <div className="sv-study">
-                      <span className="readout readout--dim"><I.book /> GOING DEEPER</span>
-                      <div className="blockflow"><BlockList blocks={s.study} /></div>
+          <article className="ds-read">
+            {session.slides.map((s, i) => {
+              return (
+                <section key={s.id} id={`sv-${s.id}`} className="ds-sec" aria-labelledby={`h-${s.id}`}>
+                  <span className="ds-sec__n" aria-hidden>{i + 1}</span>
+                  <div className="ds-sec__body">
+                    <div className="ds-sec__row">
+                      <h2 id={`h-${s.id}`} className="ds-sec__title">{s.title}</h2>
+                      {s.tag && <span className="ds-sec__tag silk silk--dim">{s.tag.split('·').slice(-2).join('·').trim()}</span>}
                     </div>
-                  )}
-                  {s.notes && (
-                    <details className="sv-notes">
-                      <summary>Instructor notes</summary>
-                      <p>{s.notes}</p>
-                    </details>
-                  )}
-                </div>
-              </section>
-            ))}
+                    {s.subtitle && <p className="ds-sec__sub dim">{s.subtitle}</p>}
+                    {s.lead && <p className="ds-sec__lead">{s.lead}</p>}
+                    <div className="blockflow">
+                      <BlockList blocks={s.blocks} />
+                      {s.study && s.study.length > 0 && (
+                        <div className="ds-appnote">
+                          <span className="ds-appnote__hd"><I.book /> Application note</span>
+                          <div className="blockflow"><BlockList blocks={s.study} /></div>
+                        </div>
+                      )}
+                      {s.notes && (
+                        <details className="ds-notes">
+                          <summary>Instructor notes</summary>
+                          <p>{s.notes}</p>
+                        </details>
+                      )}
+                    </div>
+                  </div>
+                </section>
+              );
+            })}
 
-            {/* sources */}
-            <section className="sv-sources">
-              <span className="readout readout--dim"><I.link /> SOURCES &amp; READING</span>
-              <ul>
+            <section className="ds-refs" aria-labelledby="refs-h">
+              <h2 id="refs-h" className="ds-sec__title">References</h2>
+              <ol>
                 {[...session.sources, ...(session.reading ?? [])].map((src, i) => (
                   <li key={i}>
                     <a href={src.url} target="_blank" rel="noreferrer">{src.label}</a>
-                    {src.note && <span className="dimmer"> — {src.note}</span>}
+                    {src.note && <span className="dim"> — {src.note}</span>}
                   </li>
                 ))}
-              </ul>
+              </ol>
             </section>
 
             {session.independentStudy && (
-              <aside className="sv-indep">
-                <span className="readout readout--blue"><I.book /> INDEPENDENT STUDY</span>
+              <aside className="ds-bench">
+                <span className="ds-appnote__hd"><I.target /> Bench exercise · independent study</span>
                 <p>{session.independentStudy}</p>
               </aside>
             )}
 
-            {/* prev / next */}
-            <nav className="sv-pager" aria-label="Session navigation">
+            <nav className="ds-pager" aria-label="Session navigation">
               {prev ? (
-                <Link to={`/session/${prev.id}`} className="sv-pager__link sv-pager__prev">
+                <Link to={`/session/${prev.id}`} className="ds-pager__link">
                   <I.arrowL />
-                  <span><span className="dimmer mono">PREVIOUS · S{String(prev.number).padStart(2, '0')}</span><strong>{prev.title}</strong></span>
+                  <span><span className="silk silk--dim">Previous · {prev.kind === 'practical' ? 'J' : 'U'}{prev.number}</span><strong>{prev.title}</strong></span>
                 </Link>
               ) : <span />}
               {next ? (
-                <Link to={`/session/${next.id}`} className="sv-pager__link sv-pager__next">
-                  <span><span className="dimmer mono">NEXT · S{String(next.number).padStart(2, '0')}</span><strong>{next.title}</strong></span>
+                <Link to={`/session/${next.id}`} className="ds-pager__link ds-pager__link--next">
+                  <span><span className="silk silk--dim">Next · {next.kind === 'practical' ? 'J' : 'U'}{next.number}</span><strong>{next.title}</strong></span>
                   <I.arrowR />
                 </Link>
               ) : <span />}
@@ -176,8 +190,4 @@ export function SessionView() {
       </div>
     </div>
   );
-}
-
-function Fact({ k, v }: { k: string; v: string }) {
-  return <div className="sv-fact"><span className="sv-fact__k mono">{k}</span><span className="sv-fact__v">{v}</span></div>;
 }

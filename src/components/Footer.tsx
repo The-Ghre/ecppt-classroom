@@ -5,28 +5,30 @@ export function Footer() {
   return (
     <footer className="foot">
       <div className="wrap">
-        <div className="spread wrap-flex gap-5">
-          <div className="stack gap-2">
-            <div className="row gap-3">
-              <span className="brandmark__logo">CODED</span>
-              <span className="readout">eCPPT CLASSROOM · {COURSE.cohort}</span>
+        <div className="foot__grid">
+          <div>
+            <span className="brandmark__logo">CODED</span>
+            <p className="foot__note">A teaching resource for the five-week eCPPT course. Every target, host, and dataset is synthetic and used in instructor-controlled labs.</p>
+          </div>
+          <div>
+            <span className="foot__h silk silk--dim">References</span>
+            <div className="foot__links">
+              <a href={COURSE.repo} target="_blank" rel="noreferrer">Course material repository</a>
+              <a href={COURSE.objectivesUrl} target="_blank" rel="noreferrer">INE eCPPT objectives</a>
+              <Link to="/reference">Attack path &amp; network board</Link>
             </div>
-            <p className="dimmer" style={{ maxWidth: '44ch', margin: 0 }}>
-              A teaching resource. All targets, hosts, and data are synthetic and used in instructor-controlled lab scenarios.
-            </p>
           </div>
-          <div className="stack gap-2" style={{ fontSize: '0.88rem' }}>
-            <span className="readout readout--dim">Reference</span>
-            <a href={COURSE.repo} target="_blank" rel="noreferrer">Course material repository</a>
-            <a href={COURSE.objectivesUrl} target="_blank" rel="noreferrer">INE eCPPT objectives</a>
-            <Link to="/reference">Attack-chain &amp; topology explorer</Link>
+          <div>
+            <span className="foot__h silk silk--dim">Course</span>
+            <div className="foot__links">
+              <span>{COURSE.dateRange}</span>
+              <span>{COURSE.sessions} sessions · {COURSE.theoryHours}h theory · {COURSE.practicalHours}h lab</span>
+            </div>
           </div>
-          <div className="stack gap-2" style={{ fontSize: '0.88rem' }}>
-            <span className="readout readout--dim">Course</span>
-            <span className="dim">{COURSE.dateRange}</span>
-            <span className="dim">{COURSE.sessions} sessions · {COURSE.theoryHours} theory + {COURSE.practicalHours} practical hours</span>
-            <span className="dimmer mono" style={{ fontSize: '0.72rem' }}>Source checked {COURSE.sourceChecked}</span>
-          </div>
+        </div>
+        <div className="foot__edge">
+          <span className="silk silk--dim">CODED-ECPPT-01 · rev 26.11 · made in Kuwait</span>
+          <span className="silk silk--dim">Source checked {COURSE.sourceChecked}</span>
         </div>
       </div>
     </footer>

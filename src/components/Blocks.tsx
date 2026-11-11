@@ -18,31 +18,29 @@ export function BlockView({ block }: { block: Block }) {
     case 'prose':
       return <div className="b-prose"><Prose md={block.md} /></div>;
 
-    case 'list': {
-      const Tag = block.style === 'check' || block.style === 'cross' ? 'ul' : (block.style === 'plain' ? 'ul' : 'ul');
+    case 'list':
       return (
-        <Tag className={`b-list b-list--${block.style ?? 'bullet'} ${block.columns === 2 ? 'b-list--2col' : ''}`}>
+        <ul className={`b-list b-list--${block.style ?? 'bullet'} ${block.columns === 2 ? 'b-list--2col' : ''}`}>
           {block.items.map((it, i) => {
             const text = typeof it === 'string' ? it : it.text;
             const tone = typeof it === 'string' ? undefined : it.tone;
             const Mark = block.style === 'check' ? I.valid : block.style === 'cross' ? I.cross : null;
             return (
               <li key={i} className={tone ? `tone-${tone}` : ''}>
-                {Mark && <Mark className="b-list__mark" />}
+                {Mark ? <Mark className="b-list__mark" /> : <span className="b-list__pad" aria-hidden />}
                 <span>{inline(text)}</span>
               </li>
             );
           })}
-        </Tag>
+        </ul>
       );
-    }
 
     case 'steps':
       return (
         <ol className="b-steps">
           {block.items.map((it, i) => (
             <li key={i} className={it.tone ? `tone-${it.tone}` : ''}>
-              <span className="b-steps__n mono">{String(i + 1).padStart(2, '0')}</span>
+              <span className="b-steps__n mono" aria-hidden>{i + 1}</span>
               <span className="b-steps__body">
                 <strong className="b-steps__label">{inline(it.label)}</strong>
                 <span className="b-steps__text">{inline(it.text)}</span>
@@ -56,12 +54,12 @@ export function BlockView({ block }: { block: Block }) {
       const Icon = I[toneIcon[block.tone]];
       return (
         <aside className={`b-callout tone-${block.tone}`} role="note">
-          <div className="b-callout__rail"><Icon /></div>
-          <div className="b-callout__body">
-            <span className="b-callout__label mono">{block.label ?? toneLabel[block.tone]}</span>
+          <div className="b-callout__hd">
+            <Icon className="b-callout__ic" />
+            <span className="b-callout__label">{block.label ?? toneLabel[block.tone]}</span>
             {block.title && <strong className="b-callout__title">{inline(block.title)}</strong>}
-            <div className="b-callout__md"><Prose md={block.md} /></div>
           </div>
+          <div className="b-callout__md"><Prose md={block.md} /></div>
         </aside>
       );
     }
@@ -72,9 +70,9 @@ export function BlockView({ block }: { block: Block }) {
           {block.columns.map((col, i) => (
             <div key={i} className={`b-compare__col ${col.tone ? `tone-${col.tone}` : ''}`}>
               <div className="b-compare__hd">
-                {col.tone && <I.dot className="b-compare__dot" />}
+                <span className="led" aria-hidden />
                 <strong>{inline(col.title)}</strong>
-                {col.sub && <span className="b-compare__sub mono">{col.sub}</span>}
+                {col.sub && <span className="b-compare__sub">{col.sub}</span>}
               </div>
               <ul>{col.items.map((it, j) => <li key={j}>{inline(it)}</li>)}</ul>
             </div>
@@ -85,16 +83,12 @@ export function BlockView({ block }: { block: Block }) {
     case 'terminal':
       return (
         <figure className="b-term">
-          <div className="b-term__bar">
-            <I.terminal />
-            <span className="mono">{block.title ?? 'console'}</span>
-            <span className="b-term__dots"><i /><i /><i /></span>
-          </div>
+          <div className="b-term__bar"><I.terminal /><span>{block.title ?? 'console'}</span></div>
           <pre className="b-term__body" tabIndex={0}>
             {block.lines.map((ln, i) => (
               <div key={i} className={`b-term__ln ${ln.kind ? `is-${ln.kind}` : ''} ${ln.tone ? `tone-${ln.tone}` : ''}`}>
-                {ln.kind === 'cmd' && <span className="b-term__p">$</span>}
-                {ln.kind === 'comment' && <span className="b-term__hash"># </span>}
+                {ln.kind === 'cmd' && <span className="b-term__p" aria-hidden>$ </span>}
+                {ln.kind === 'comment' && <span aria-hidden># </span>}
                 <span>{ln.text}</span>
               </div>
             ))}
@@ -108,13 +102,13 @@ export function BlockView({ block }: { block: Block }) {
         <figure className="b-http">
           <div className="b-http__grid">
             <div className="b-http__pane">
-              <span className="b-http__tab mono">REQUEST</span>
-              <pre tabIndex={0}>{block.request.map((l, i) => <div key={i}>{l}</div>)}</pre>
+              <span className="b-http__tab">Request</span>
+              <pre tabIndex={0}>{block.request.map((l, i) => <div key={i}>{l || ' '}</div>)}</pre>
             </div>
             {block.response && (
               <div className="b-http__pane b-http__pane--res">
-                <span className="b-http__tab mono">RESPONSE</span>
-                <pre tabIndex={0}>{block.response.map((l, i) => <div key={i}>{l}</div>)}</pre>
+                <span className="b-http__tab">Response</span>
+                <pre tabIndex={0}>{block.response.map((l, i) => <div key={i}>{l || ' '}</div>)}</pre>
               </div>
             )}
           </div>
@@ -135,16 +129,16 @@ export function BlockView({ block }: { block: Block }) {
     case 'table':
       return (
         <figure className="b-table-wrap">
-          <table className="b-table">
-            <thead>
-              <tr>{block.head.map((h, i) => <th key={i} style={{ textAlign: block.align?.[i] ?? 'left' }}>{inline(h)}</th>)}</tr>
-            </thead>
-            <tbody>
-              {block.rows.map((r, i) => (
-                <tr key={i}>{r.map((c, j) => <td key={j} style={{ textAlign: block.align?.[j] ?? 'left' }}>{inline(c)}</td>)}</tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="b-table-scroll">
+            <table className="b-table">
+              <thead><tr>{block.head.map((h, i) => <th key={i} scope="col" style={{ textAlign: block.align?.[i] ?? 'left' }}>{inline(h)}</th>)}</tr></thead>
+              <tbody>
+                {block.rows.map((r, i) => (
+                  <tr key={i}>{r.map((c, j) => <td key={j} style={{ textAlign: block.align?.[j] ?? 'left' }}>{inline(c)}</td>)}</tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           {block.caption && <figcaption className="b-cap">{inline(block.caption)}</figcaption>}
         </figure>
       );
@@ -155,31 +149,35 @@ export function BlockView({ block }: { block: Block }) {
     case 'check':
       return <CheckView block={block} />;
 
-    case 'reasoning':
+    case 'reasoning': {
+      const rows: [string, string, string][] = [
+        ['What evidence supports this test?', block.evidence, 'evidence'],
+        ['What conditions must be true?', block.conditions, 'caution'],
+        ['What does the result prove?', block.proves, 'valid'],
+        ['What should we investigate next?', block.next, 'cyan'],
+        ['What change addresses the root cause?', block.rootcause, 'violet'],
+      ];
       return (
         <div className="b-reason">
-          <div className="b-reason__hd"><I.reasoning /><span className="mono">THE FIVE QUESTIONS</span></div>
-          <dl>
-            {[
-              ['What evidence supports this test?', block.evidence, 'evidence'],
-              ['What conditions must be true?', block.conditions, 'caution'],
-              ['What does the result prove?', block.proves, 'valid'],
-              ['What should we investigate next?', block.next, 'cyan'],
-              ['What change addresses the root cause?', block.rootcause, 'violet'],
-            ].map(([q, a, tone], i) => (
-              <div key={i} className={`b-reason__row tone-${tone}`}>
-                <dt><span className="b-reason__n mono">{i + 1}</span>{q}</dt>
-                <dd>{inline(a as string)}</dd>
-              </div>
+          <div className="b-reason__hd"><I.reasoning /><span>Test procedure · five probe points</span></div>
+          <ol className="b-reason__list">
+            {rows.map(([q, a, tone], i) => (
+              <li key={i} className={`b-reason__row tone-${tone}`}>
+                <span className="b-reason__tp" aria-hidden><span /></span>
+                <span className="b-reason__id">TP{i + 1}</span>
+                <span className="b-reason__q">{q}</span>
+                <span className="b-reason__a">{inline(a)}</span>
+              </li>
             ))}
-          </dl>
+          </ol>
         </div>
       );
+    }
 
     case 'define':
       return (
         <div className="b-define">
-          <span className="b-define__term mono">{block.term}</span>
+          <span className="b-define__term">{block.term}</span>
           <div className="b-define__body"><Prose md={block.md} /></div>
         </div>
       );
@@ -189,17 +187,18 @@ export function BlockView({ block }: { block: Block }) {
 
     case 'figure':
       return (
-        <div className="b-figure panel panel--inset ticked">
-          <div className="b-figure__hd mono">{block.title}</div>
+        <figure className="b-figure">
+          <figcaption className="b-figure__hd"><span>{block.title}</span><span className="b-figure__cols" aria-hidden>Pin · Signal</span></figcaption>
           <dl className="b-figure__rows">
             {block.rows.map((r, i) => (
               <div key={i} className={`b-figure__row ${r.tone ? `tone-${r.tone}` : ''}`}>
-                <dt className="mono">{r.k}</dt>
+                <span className="b-figure__pin" aria-hidden>{i + 1}</span>
+                <dt>{r.k}</dt>
                 <dd>{inline(r.v)}</dd>
               </div>
             ))}
           </dl>
-        </div>
+        </figure>
       );
   }
 }
@@ -209,38 +208,30 @@ function CheckView({ block }: { block: Extract<Block, { type: 'check' }> }) {
   const [picked, setPicked] = useState<number | null>(null);
   return (
     <div className="b-check">
-      <div className="b-check__q">
-        <I.question />
-        <strong>{inline(block.q)}</strong>
-      </div>
+      <div className="b-check__q"><I.question /><strong>{inline(block.q)}</strong></div>
       {block.options && (
-        <ul className="b-check__opts" role="group">
+        <ul className="b-check__opts" role="group" aria-label="Answer options">
           {block.options.map((o, i) => {
             const state = revealed ? (o.correct ? 'correct' : picked === i ? 'wrong' : '') : (picked === i ? 'picked' : '');
             return (
               <li key={i}>
-                <button
-                  type="button"
-                  className={`b-check__opt ${state}`}
-                  aria-pressed={picked === i}
-                  onClick={() => { setPicked(i); }}
-                >
-                  <span className="b-check__mk mono">{String.fromCharCode(65 + i)}</span>
+                <button type="button" className={`b-check__opt ${state}`} aria-pressed={picked === i} onClick={() => setPicked(i)}>
+                  <span className="b-check__mk">{String.fromCharCode(65 + i)}</span>
                   <span>{inline(o.text)}</span>
-                  {revealed && o.correct && <I.valid className="b-check__ok" />}
-                  {revealed && !o.correct && picked === i && <I.cross className="b-check__no" />}
+                  {revealed && o.correct && <span className="b-check__verdict tone-valid"><I.valid /> Correct</span>}
+                  {revealed && !o.correct && picked === i && <span className="b-check__verdict tone-attacker"><I.cross /> Your pick</span>}
                 </button>
               </li>
             );
           })}
         </ul>
       )}
-      <button type="button" className="btn btn--sm btn--ghost b-check__reveal" aria-expanded={revealed} onClick={() => setRevealed(v => !v)}>
+      <button type="button" className="btn btn--sm b-check__reveal" aria-expanded={revealed} onClick={() => setRevealed((v) => !v)}>
         {revealed ? 'Hide answer' : 'Reveal answer'}
       </button>
       {revealed && (
-        <div className="b-check__ans tone-valid">
-          <span className="b-check__ans-label mono">ANSWER</span>
+        <div className="b-check__ans">
+          <span className="b-check__ans-label">Answer</span>
           <Prose md={block.answer} />
         </div>
       )}
@@ -252,18 +243,13 @@ function HintsView({ items }: { items: { label: string; md: string }[] }) {
   const [open, setOpen] = useState<number>(-1);
   return (
     <div className="b-hints">
-      <div className="b-hints__hd mono">Progressive hints — reveal only what you need</div>
+      <div className="b-hints__hd">Progressive hints · reveal only the next one you need</div>
       {items.map((h, i) => {
         const shown = i <= open;
         return (
           <div key={i} className={`b-hints__item ${shown ? 'is-open' : ''}`}>
-            <button
-              type="button"
-              className="b-hints__trigger"
-              aria-expanded={shown}
-              onClick={() => setOpen(o => (o >= i ? i - 1 : i))}
-            >
-              <span className="b-hints__n mono">HINT {i + 1}</span>
+            <button type="button" className="b-hints__trigger" aria-expanded={shown} onClick={() => setOpen((o) => (o >= i ? i - 1 : i))}>
+              <span className="b-hints__n">Probe {i + 1}</span>
               <span className="b-hints__label">{h.label}</span>
               <I.chevronD className="b-hints__chev" />
             </button>

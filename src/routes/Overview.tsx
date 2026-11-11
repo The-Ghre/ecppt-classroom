@@ -1,216 +1,153 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { COURSE, WEEKS, EXAM_DOMAINS, GRADING, STAGES, FIVE_QUESTIONS } from '../content/course';
-import { SESSIONS, sessionsInWeek, totalSlides } from '../content';
-import { SessionCard } from '../components/SessionCard';
+import { COURSE, EXAM_DOMAINS, GRADING, STAGES, FIVE_QUESTIONS } from '../content/course';
+import { SESSIONS } from '../content';
+import { Board } from '../components/Board';
+import { AttackChain } from '../diagrams/AttackChain';
 import { I } from '../components/icons';
 import { useProgress } from '../lib/useProgress';
 
 export function Overview() {
   const { progress } = useProgress();
-  const doneCount = progress.completed.length;
-  const pct = Math.round((doneCount / SESSIONS.length) * 100);
-  const resumeId = progress.lastSession ?? SESSIONS.find((s) => !progress.completed.includes(s.id))?.id ?? SESSIONS[0].id;
-  const resume = SESSIONS.find((s) => s.id === resumeId)!;
-  const started = doneCount > 0 || !!progress.lastSession;
+  const firstOpen = SESSIONS.find((s) => !progress.completed.includes(s.id))?.id ?? SESSIONS[SESSIONS.length - 1].id;
+  const current = progress.lastSession && !progress.completed.includes(progress.lastSession) ? progress.lastSession : firstOpen;
+  const started = progress.completed.length > 0 || !!progress.lastSession;
+  const [probe, setProbe] = useState(current);
+  const probed = SESSIONS.find((s) => s.id === probe) ?? SESSIONS[0];
+  const resume = SESSIONS.find((s) => s.id === current)!;
 
   return (
     <div className="ov">
-      {/* ---- Hero ---- */}
-      <section className="ov-hero">
-        <div className="wrap">
-          <div className="ov-hero__grid">
-            <div className="ov-hero__lead">
-              <div className="ov-hero__kick">
-                <span className="readout readout--blue">CODED · {COURSE.code} CLASSROOM</span>
-                <span className="readout readout--dim">{COURSE.cohort}</span>
-              </div>
-              <h1 className="display ov-hero__title">
-                A penetration test,<br />taught as a <em className="ov-em">disciplined chain</em>.
-              </h1>
-              <p className="lede ov-hero__lede">
-                Five weeks, fifteen sessions. Discover a network, land a foothold, escalate, pivot,
-                assess Active Directory, and communicate findings — every step justified by evidence.
-              </p>
-              <div className="ov-hero__cta">
-                <Link to={`/session/${resume.id}`} className="btn btn--primary btn--lg">
-                  <I.play /> {started ? `Resume · ${resume.title}` : 'Start the course'}
-                </Link>
-                <Link to="/reference" className="btn btn--ghost btn--lg">
-                  <I.map /> Explore the attack chain
-                </Link>
-              </div>
-            </div>
-
-            <aside className="ov-hero__panel panel ticked" aria-label="Course readout">
-              <div className="ov-readout">
-                <Stat k="DATES" v={COURSE.dateRange} />
-                <Stat k="SESSIONS" v={`${COURSE.sessions} · ${totalSlides()} slides`} />
-                <Stat k="CONTACT" v={`${COURSE.theoryHours}h theory · ${COURSE.practicalHours}h practical`} />
-                <Stat k="STUDY" v={COURSE.independentStudy} />
-              </div>
-              <div className="ov-prog">
-                <div className="ov-prog__hd">
-                  <span className="readout">YOUR PROGRESS</span>
-                  <span className="mono ov-prog__pct">{doneCount}/{SESSIONS.length}</span>
-                </div>
-                <div className="ov-prog__bar" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100} aria-label="Sessions completed">
-                  <span style={{ transform: `scaleX(${pct / 100})` }} />
-                </div>
-                <p className="ov-prog__note dimmer">
-                  {started ? 'Progress is saved on this device only — no account needed.' : 'Mark sessions complete as you go; your place is saved locally.'}
-                </p>
-              </div>
-            </aside>
+      {/* ---- Top band: the claim, the action, the probe ---- */}
+      <section className="ov-top wrap">
+        <div className="ov-top__claim">
+          <h1 className="display ov-title">Route the signal.<br />Prove every hop.</h1>
+          <p className="lede">
+            CODED’s five-week eCPPT course, wired as one board. Fifteen sessions take you from an
+            unknown subnet to a domain objective — and every connection has to carry evidence.
+          </p>
+          <div className="ov-cta">
+            <Link to={`/session/${resume.id}`} className="btn btn--primary btn--lg">
+              <I.play /> {started ? `Resume S${String(resume.number).padStart(2, '0')}` : 'Start at S01'}
+            </Link>
+            <Link to="/reference" className="btn btn--lg"><I.target /> Trace the attack chain</Link>
           </div>
+          <p className="ov-meta silk silk--dim">
+            {COURSE.dateRange} · {COURSE.theoryHours}h theory · {COURSE.practicalHours}h lab · study {COURSE.independentStudy}
+          </p>
+        </div>
 
-          {/* The organising spine */}
-          <div className="ov-spine" aria-label="The attack chain">
-            <span className="ov-spine__label readout">THE ATTACK CHAIN</span>
-            <ol className="ov-spine__track">
-              {STAGES.map((s, i) => (
-                <li key={s.id} className={`ov-spine__stage tone-${s.tone}`}>
-                  <span className="ov-spine__n mono">{String(s.n).padStart(2, '0')}</span>
-                  <span className="ov-spine__name">{s.label}</span>
-                  {i < STAGES.length - 1 && <I.arrowR className="ov-spine__arr" />}
-                </li>
-              ))}
-            </ol>
+        <aside className="probe" aria-live="polite" aria-label="Probe readout for the selected session">
+          <div className="probe__hd">
+            <span className="probe__tip" aria-hidden />
+            <span className="silk silk--signal">Probe · {probed.kind === 'practical' ? `J${probed.number}` : `U${probed.number}`}</span>
+            <span className={`chip ${probed.kind === 'practical' ? 'chip--practical' : 'chip--theory'}`}>
+              {probed.kind === 'practical' ? <I.flag /> : <I.book />} {probed.kind === 'practical' ? 'Lab' : 'Theory'}
+            </span>
           </div>
-        </div>
-      </section>
-
-      {/* ---- Roadmap ---- */}
-      <section className="ov-map wrap" aria-labelledby="roadmap-h">
-        <div className="ov-sec-hd">
-          <h2 id="roadmap-h" className="h-xl">The five-week roadmap</h2>
-          <p className="dim">Sunday &amp; Tuesday build the theory; Wednesday is the lab where you prove it.</p>
-        </div>
-        <div className="ov-weeks">
-          {WEEKS.map((w) => (
-            <div key={w.n} className="ov-week" id={`week-${w.n}`}>
-              <div className="ov-week__hd">
-                <div className="ov-week__badge">
-                  <span className="readout readout--dim">WEEK</span>
-                  <span className="ov-week__n">{w.n}</span>
-                </div>
-                <div className="ov-week__meta">
-                  <h3 className="ov-week__title">{w.title}</h3>
-                  <p className="ov-week__outcome">{w.outcome}</p>
-                </div>
-                <span className="ov-week__dates mono">{w.dateRange}</span>
-              </div>
-              <div className="ov-week__sessions">
-                {sessionsInWeek(w.n).map((s) => (
-                  <SessionCard key={s.id} session={s} resume={s.id === resume.id && started} />
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ---- The method ---- */}
-      <section className="ov-method wrap">
-        <div className="panel ov-method__panel ticked">
-          <div className="ov-method__hd">
-            <I.reasoning />
-            <div>
-              <span className="readout readout--blue">THE METHOD</span>
-              <h2 className="h-lg">Five questions you ask of every test</h2>
-            </div>
-          </div>
-          <ol className="ov-method__list">
-            {FIVE_QUESTIONS.map((q, i) => (
-              <li key={i}>
-                <span className="ov-method__n mono">{i + 1}</span>
-                <span>{q}</span>
-              </li>
+          <h2 className="probe__title">{probed.title}</h2>
+          <p className="probe__outcome">{probed.outcome}</p>
+          <dl className="probe__pins">
+            <div><dt className="silk silk--dim">Date</dt><dd>{probed.day} {probed.dateLabel}</dd></div>
+            <div><dt className="silk silk--dim">Length</dt><dd>{probed.durationHours} hours</dd></div>
+            <div><dt className="silk silk--dim">Slides</dt><dd>{probed.slides.length}</dd></div>
+            <div><dt className="silk silk--dim">Week</dt><dd>{probed.week} of 5</dd></div>
+          </dl>
+          <div className="probe__stages">
+            {STAGES.filter((st) => probed.stages.includes(st.id)).map((st) => (
+              <span key={st.id} className="probe__stage">{st.full}</span>
             ))}
-          </ol>
-        </div>
+          </div>
+          <div className="probe__act">
+            <Link to={`/present/${probed.id}`} className="btn btn--primary btn--sm"><I.play /> Present</Link>
+            <Link to={`/session/${probed.id}`} className="btn btn--sm"><I.book /> Read datasheet</Link>
+          </div>
+          <p className="probe__hint silk silk--dim">Hover or tab across the board to probe a part</p>
+        </aside>
       </section>
 
-      {/* ---- Domains vs grading ---- */}
-      <section className="ov-dual wrap" aria-labelledby="scheme-h">
-        <div className="ov-sec-hd">
-          <h2 id="scheme-h" className="h-xl">Two different scorecards</h2>
-          <p className="dim">The published exam weights are not how this course is graded. We keep them separate on purpose.</p>
+      {/* ---- The board ---- */}
+      <section className="ov-board wrap" aria-labelledby="board-h">
+        <h2 id="board-h" className="sr-only">The five-week course board</h2>
+        <Board sessions={SESSIONS} completed={progress.completed} current={current} probe={probe} onProbe={setProbe} />
+        <p className="ov-board__note dim">
+          Sunday and Tuesday are theory chips; Wednesday is the lab header where you prove them.
+          Your progress powers the trace and is saved on this device only — no account.
+        </p>
+      </section>
+
+      {/* ---- The attack chain net ---- */}
+      <section className="ov-sec wrap" aria-labelledby="chain-h">
+        <div className="ov-sec__hd">
+          <h2 id="chain-h" className="h-xl">One path, six hops</h2>
+          <p className="dim">The route every session teaches. Unproven hops are ratsnest; each one you validate becomes copper. Step through it.</p>
         </div>
-        <div className="ov-dual__grid">
-          <WeightPanel
-            title="INE exam domains" sub="Published weighting of the certification exam"
-            icon={<I.target />} tone="evidence"
+        <AttackChain initial={0} />
+      </section>
+
+      {/* ---- Test procedure: the five questions ---- */}
+      <section className="ov-sec wrap" aria-labelledby="tp-h">
+        <div className="ov-sec__hd">
+          <h2 id="tp-h" className="h-xl">Probe every test at five points</h2>
+          <p className="dim">The same five questions, asked of every scan, exploit, and finding in the course.</p>
+        </div>
+        <ol className="tps">
+          {FIVE_QUESTIONS.map((q, i) => (
+            <li key={i} className="tp">
+              <span className="tp__pad" aria-hidden><span /></span>
+              <span className="tp__id silk silk--copper">TP{i + 1}</span>
+              <span className="tp__q">{q}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      {/* ---- Two tables, kept apart on purpose ---- */}
+      <section className="ov-sec wrap" aria-labelledby="tables-h">
+        <div className="ov-sec__hd">
+          <h2 id="tables-h" className="h-xl">Two scorecards, never mixed</h2>
+          <p className="dim">INE’s exam weights describe the certification. CODED’s weights describe how this course grades you.</p>
+        </div>
+        <div className="dtables">
+          <WeightTable
+            n={1} title="INE exam domains" sub="Published weighting of the certification exam" col="Domain"
             rows={EXAM_DOMAINS.map((d) => ({ label: d.label, weight: d.weight, note: d.coverage }))}
           />
-          <WeightPanel
-            title="Course assessment" sub="How CODED grades your work on this course"
-            icon={<I.valid />} tone="valid"
+          <WeightTable
+            n={2} title="Course assessment" sub="How CODED grades your work" col="Component"
             rows={GRADING.map((g) => ({ label: g.label, weight: g.weight }))}
           />
         </div>
-        <p className="ov-dual__note dimmer">
-          Source check: {COURSE.sourceChecked}. Exam weights describe INE’s published domains, not the course grading scheme.
-        </p>
-      </section>
-
-      {/* ---- Legend ---- */}
-      <section className="ov-legend wrap">
-        <span className="readout readout--dim">READING THE CONSOLE</span>
-        <div className="ov-legend__row">
-          {[
-            { t: 'evidence', i: <I.evidence />, l: 'Evidence / method' },
-            { t: 'attacker', i: <I.attacker />, l: 'Attacker / exploit' },
-            { t: 'valid', i: <I.valid />, l: 'Validated' },
-            { t: 'caution', i: <I.caution />, l: 'Caution / assumption' },
-            { t: 'cyan', i: <I.network />, l: 'Network / pivot' },
-            { t: 'violet', i: <I.identity />, l: 'Identity / AD' },
-          ].map((x) => (
-            <span key={x.t} className={`chip chip--${x.t === 'cyan' ? 'cyan' : x.t === 'violet' ? 'violet' : x.t}`}>{x.i} {x.l}</span>
-          ))}
-        </div>
-        <p className="dimmer" style={{ marginTop: 10, fontSize: '0.86rem' }}>
-          Meaning is never carried by colour alone — each channel also has an icon and a label.
-        </p>
+        <p className="ov-src silk silk--dim">Source check {COURSE.sourceChecked} · exam weights are INE’s, not the course grading scheme</p>
       </section>
     </div>
   );
 }
 
-function Stat({ k, v }: { k: string; v: string }) {
-  return (
-    <div className="ov-stat">
-      <span className="ov-stat__k mono">{k}</span>
-      <span className="ov-stat__v">{v}</span>
-    </div>
-  );
-}
-
-function WeightPanel({ title, sub, icon, tone, rows }: {
-  title: string; sub: string; icon: React.ReactNode; tone: string;
-  rows: { label: string; weight: number; note?: string }[];
-}) {
+function WeightTable({ n, title, sub, col, rows }: { n: number; title: string; sub: string; col: string; rows: { label: string; weight: number; note?: string }[] }) {
   const max = Math.max(...rows.map((r) => r.weight));
   return (
-    <div className={`panel ov-weight tone-${tone}`}>
-      <div className="ov-weight__hd">
-        <span className="ov-weight__ic">{icon}</span>
-        <div>
-          <h3 className="ov-weight__title">{title}</h3>
-          <span className="dimmer" style={{ fontSize: '0.84rem' }}>{sub}</span>
-        </div>
-      </div>
-      <ul className="ov-weight__list">
-        {rows.map((r, i) => (
-          <li key={i}>
-            <div className="ov-weight__rowhd">
-              <span className="ov-weight__label">{r.label}</span>
-              <span className="ov-weight__pct mono">{r.weight}%</span>
-            </div>
-            <div className="ov-weight__bar"><span style={{ width: `${(r.weight / max) * 100}%` }} /></div>
-            {r.note && <span className="ov-weight__note dimmer">{r.note}</span>}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <figure className="dtable">
+      <figcaption className="dtable__cap">
+        <span className="silk silk--copper">Table {n}</span>
+        <strong>{title}</strong>
+        <span className="dim">{sub}</span>
+      </figcaption>
+      <table>
+        <thead><tr><th scope="col">{col}</th><th scope="col" className="num">Weight</th></tr></thead>
+        <tbody>
+          {rows.map((r, i) => (
+            <tr key={i}>
+              <td>
+                <span className="dtable__label">{r.label}</span>
+                {r.note && <span className="dtable__note">{r.note}</span>}
+                <span className="dtable__trace" aria-hidden><span style={{ transform: `scaleX(${r.weight / max})` }} /></span>
+              </td>
+              <td className="num mono">{r.weight}%</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </figure>
   );
 }

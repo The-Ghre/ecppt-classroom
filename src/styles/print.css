@@ -1,43 +1,29 @@
 /* ============================================================
-   Print — clean, light, legible PDF export of a study session.
+   Print — the datasheet on paper: white stock, navy ink.
    Triggered from study mode (Print / save as PDF).
    ============================================================ */
 @media print {
-  :root { color-scheme: light; }
-  body {
-    background: #fff !important; color: #16213a; background-image: none !important;
-    font-size: 11pt;
+  :root {
+    color-scheme: light;
+    --ink: #00112f; --ink-1: #00112f; --ink-2: #14243f; --muted: #3a4a6b; --muted-2: #55678c;
+    --mask: #ffffff; --desk: #ffffff; --body: #f2f4f9; --well: #f4f6fb;
+    --line: #c9d2e6; --line-soft: #dde3f0; --silk-line: #b6c2dc; --silk-faint: #dde3f0; --silk-2: #3a4a6b; --silk: #00112f;
+    --copper: #8a6420; --copper-2: #8a6420; --signal: #004aa3;
   }
-  .masthead, .foot, .sv-rail, .sv-actions, .sv-crumb, .sv-pager, .present, .cmdk, .nav, .skip,
-  .sv-notes, .scard__go, .ov-hero__cta, .present__bar { display: none !important; }
-
-  a { color: #0a4da0; text-decoration: underline; }
+  body { background: #fff !important; color: #14243f; font-size: 10.5pt; }
+  .masthead, .foot, .ds-rail, .ds-actions, .ds-crumb, .ds-pager, .present, .cmdk, .skip, .ds-notes,
+  .b-check__reveal, .b-hints__chev { display: none !important; }
   .wrap { max-width: 100%; padding: 0; }
-  .sv { padding: 0; }
-  .sv-body { display: block; }
-  .sv-read { max-width: 100%; }
-
-  h1, h2, h3, h4 { color: #0a1c3a; }
-  .sv-title { font-size: 22pt; }
-  .sv-slide { break-inside: avoid; border-bottom: 1px solid #d5ddf0; padding: 14pt 0; }
-  .sv-slide__title { font-size: 14pt; }
-  .sv-slide__lead { color: #2a3a5c; }
-
-  .readout, .mono, .kicker { color: #4a5a7c !important; }
-  .panel, .b-callout, .b-check, .b-reason, .b-term, .b-http__pane, .b-figure, .adtree, .ov-weight,
-  .b-table-wrap, .b-hints, .topo__stage, .topo__read, .krb__svg, .chain__panel {
-    background: #f4f6fc !important; border-color: #ccd6ea !important; box-shadow: none !important; color: #16213a;
-  }
-  .b-term__body, .b-http pre { color: #1a2a48 !important; }
-  .b-term__p { color: #1a7a4a !important; }
-  .icode { color: #0a4da0 !important; background: #e6edfb !important; border-color: #c4d2ee !important; }
-  .b-prose, .b-list li, .b-table td, .b-callout__md, .chain__row dd, .topo__facts dd { color: #243352 !important; }
-  .chip { border-color: #c4d2ee !important; }
-
-  /* reveal collapsed teaching content for the printed record */
+  .ds { padding: 0; }
+  .ds-body { display: block; margin-top: 12pt; }
+  .ds-read { max-width: 100%; }
+  .ds-head { grid-template-columns: auto 1fr; }
+  .ds-pins { grid-column: 1 / -1; }
+  .ds-part { box-shadow: none; border: 1px solid #b6c2dc; }
+  .ds-sec { break-inside: avoid; padding: 12pt 0; }
+  .b-term__body, .b-http pre { white-space: pre-wrap; }
   .b-check__ans, .b-hints__body { display: block !important; }
-  .sv-study { background: #f8faff !important; border-color: #ccd6ea !important; }
-
-  .b-table th { background: #e9eefa !important; color: #2a3a5c !important; }
-  .sv-slide, .panel { page-break-inside: avoid; }
+  a { color: #004aa3; }
+  .tone-attacker { --t: #c23030; } .tone-valid { --t: #1f7a4f; } .tone-caution { --t: #8a6420; }
+  .tone-evidence { --t: #004aa3; } .tone-cyan { --t: #0b6b78; } .tone-violet { --t: #5a3fb0; }
 }

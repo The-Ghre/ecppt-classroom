@@ -3,15 +3,14 @@ import { I } from '../components/icons';
 
 export function NotFound() {
   return (
-    <div className="nf wrap">
-      <div className="nf__panel panel ticked">
-        <span className="readout readout--blue">404 · NO ROUTE TO HOST</span>
-        <h1 className="display">This path doesn’t resolve.</h1>
-        <p className="lede">The page you asked for isn’t on the map. Head back to the roadmap and pick a session,
-          or search the whole course.</p>
-        <div className="nf__cta">
-          <Link to="/" className="btn btn--primary"><I.map /> Roadmap</Link>
-          <Link to="/reference" className="btn btn--ghost"><I.target /> Attack chain</Link>
+    <div className="lone wrap">
+      <div className="lone__panel">
+        <div className="lone__trace" aria-hidden><i /><b /><i /><span className="lone__rats" /><i className="lone__open" /></div>
+        <h1 className="h-xl">Open circuit.</h1>
+        <p className="lede">This address doesn’t route anywhere on the board. Head back and pick a session, or search every slide.</p>
+        <div className="lone__cta">
+          <Link to="/" className="btn btn--primary"><I.map /> Course board</Link>
+          <Link to="/reference" className="btn"><I.target /> Attack path</Link>
         </div>
       </div>
     </div>

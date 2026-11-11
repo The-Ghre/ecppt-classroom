@@ -1,47 +1,51 @@
 import { useState } from 'react';
-import { TOPO_NODES, TOPO_LINKS } from './data';
+import { TOPO_NODES } from './data';
 import { I } from '../components/icons';
 
-/* Signature interaction #2 — explorable network topology.
-   Click a node (or tab to it) to read its reachability, name resolution,
-   and credential requirements on the measuring grid. */
+/* Signature #3 — the lab network as a two-layer board.
+   Top layer (copper) is the DMZ you can reach; the inner layer (blue) is
+   corp.local, reachable only through WEB01's via — that via IS the pivot.
+   Select a host to read reachability, name resolution, and credentials. */
+
+const LINKS: { a: string; b: string; top?: string; inner?: string; member?: string; label: string; lx: number; ly: number }[] = [
+  { a: 'kali', b: 'web01', top: 'M102 150H268', label: 'DMZ · 10.10.24.0/24', lx: 185, ly: 141 },
+  { a: 'web01', b: 'file02', top: 'M332 150H400', inner: 'M400 150H418L440 128V92L462 70H508', label: 'Inner · 172.16.8.25', lx: 470, ly: 60 },
+  { a: 'web01', b: 'dc01', top: 'M332 150H400', inner: 'M400 150H418L440 172V208L462 230H508', label: 'Inner · 172.16.8.10', lx: 470, ly: 256 },
+  { a: 'file02', b: 'dc01', member: 'M540 90V210', label: 'Domain membership', lx: 596, ly: 154 },
+];
+
 export function Topology({ compact = false }: { compact?: boolean }) {
   const [sel, setSel] = useState('web01');
   const node = TOPO_NODES.find((n) => n.id === sel)!;
-  const byId = (id: string) => TOPO_NODES.find((n) => n.id === id)!;
-
-  const segLabel: Record<string, string> = {
-    attacker: 'Attacker side', dmz: 'DMZ · 10.10.24.0/24', internal: 'Internal · 172.16.8.0/24',
-  };
+  const layer: Record<string, string> = { attacker: 'Off-board · attacker', dmz: 'Top layer · DMZ', internal: 'Inner layer · corp.local' };
 
   return (
     <div className={`topo ${compact ? 'topo--compact' : ''}`}>
       <div className="topo__stage">
-        {/* segment bands */}
-        <svg viewBox="0 0 640 300" className="topo__svg" role="img" aria-label="Network topology from attacker to domain controller">
-          <defs>
-            <marker id="topo-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-              <path d="M0 0L10 5L0 10z" fill="currentColor" />
-            </marker>
-          </defs>
-          <g className="topo__bands">
-            <rect x="12" y="20" width="180" height="260" rx="10" className="topo__band" />
-            <rect x="212" y="20" width="180" height="260" rx="10" className="topo__band" />
-            <rect x="412" y="20" width="216" height="260" rx="10" className="topo__band" />
-            <text x="102" y="40" className="topo__bandlbl">DMZ boundary</text>
-            <text x="302" y="40" className="topo__bandlbl">Pivot</text>
-            <text x="520" y="40" className="topo__bandlbl">Internal · corp.local</text>
-          </g>
-          {TOPO_LINKS.map(([a, b, lbl], idx) => {
-            const na = byId(a), nb = byId(b);
-            const on = sel === a || sel === b;
+        <svg viewBox="0 0 640 300" className="topo__svg" role="img" aria-label="Two-layer network board: attacker, WEB01 pivot via, FILE02 and DC01 on the inner layer">
+          <rect x="150" y="22" width="262" height="256" rx="10" className="topo__layer" />
+          <rect x="424" y="22" width="206" height="256" rx="10" className="topo__layer topo__layer--inner" />
+          <text x="160" y="40" className="topo__layerlbl">Top layer · DMZ</text>
+          <text x="434" y="40" className="topo__layerlbl topo__layerlbl--inner">Inner layer · corp.local</text>
+
+          {LINKS.map((l, i) => {
+            const on = sel === l.a || sel === l.b;
             return (
-              <g key={idx} className={`topo__link ${on ? 'is-on' : ''}`}>
-                <line x1={na.x} y1={na.y} x2={nb.x} y2={nb.y} markerEnd="url(#topo-arrow)" />
-                {on && <text x={(na.x + nb.x) / 2} y={(na.y + nb.y) / 2 - 6} className="topo__linklbl">{lbl}</text>}
+              <g key={i} className={`topo__net ${on ? 'is-on' : ''}`}>
+                {l.top && <path d={l.top} className="topo__t topo__t--top" />}
+                {l.inner && <path d={l.inner} className="topo__t topo__t--inner" />}
+                {l.member && <path d={l.member} className="topo__t topo__t--member" />}
+                {on && <text x={l.lx} y={l.ly} className="topo__netlbl">{l.label}</text>}
               </g>
             );
           })}
+
+          <g className="topo__via" aria-hidden>
+            <circle cx="400" cy="150" r="7.5" />
+            <circle cx="400" cy="150" r="2.6" className="topo__drill" />
+            <text x="400" y="176" className="topo__vialbl">VIA</text>
+          </g>
+
           {TOPO_NODES.map((n) => (
             <g
               key={n.id}
@@ -54,29 +58,29 @@ export function Topology({ compact = false }: { compact?: boolean }) {
               onClick={() => setSel(n.id)}
               onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSel(n.id); } }}
             >
-              <circle r="26" className="topo__ring" />
-              <circle r="17" className="topo__core" />
-              <text y="48" className="topo__lbl">{n.label}</text>
-              <text y="63" className="topo__sub">{n.sub}</text>
+              <rect x="-32" y="-20" width="64" height="40" rx="5" className="topo__body" />
+              <text y="5" className="topo__lbl">{n.label}</text>
+              <text y="38" className="topo__sub">{n.sub}</text>
             </g>
           ))}
         </svg>
       </div>
 
-      <aside className={`topo__read tone-${node.tone}`} aria-live="polite">
+      <aside className="topo__read" aria-live="polite">
         <div className="topo__read-hd">
-          <span className="chip" style={{ color: 'var(--ink)' }}><I.dot /> {node.label}</span>
-          <span className="mono dimmer">{segLabel[node.seg]}</span>
+          <span className="probe__tip" aria-hidden />
+          <strong>{node.label}</strong>
+          <span className="silk silk--dim">{layer[node.seg]}</span>
         </div>
         <p className="topo__note">{node.note}</p>
         <dl className="topo__facts">
-          <div className="tone-cyan"><dt className="mono"><I.network /> REACHABILITY</dt><dd>{node.reach}</dd></div>
-          <div className="tone-evidence"><dt className="mono"><I.server /> NAME RESOLUTION</dt><dd>{node.name}</dd></div>
-          <div className="tone-violet"><dt className="mono"><I.lock /> CREDENTIALS</dt><dd>{node.creds}</dd></div>
+          <div><dt className="silk silk--signal"><I.network /> Reachability</dt><dd>{node.reach}</dd></div>
+          <div><dt className="silk silk--copper"><I.server /> Name resolution</dt><dd>{node.name}</dd></div>
+          <div><dt className="silk" style={{ color: 'var(--violet)' }}><I.lock /> Credentials</dt><dd>{node.creds}</dd></div>
         </dl>
-        <div className="topo__pick">
+        <div className="topo__pick" role="group" aria-label="Select host">
           {TOPO_NODES.map((n) => (
-            <button key={n.id} className={`topo__pickbtn ${sel === n.id ? 'is-active' : ''}`} onClick={() => setSel(n.id)}>{n.label}</button>
+            <button key={n.id} className={`topo__pickbtn ${sel === n.id ? 'is-active' : ''}`} aria-pressed={sel === n.id} onClick={() => setSel(n.id)}>{n.label}</button>
           ))}
         </div>
       </aside>
