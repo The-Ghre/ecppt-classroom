@@ -21,7 +21,7 @@ The whole course is drawn as one circuit board. Theory sessions are IC chips
 courtyards on a single routed bus. Your progress lays the copper: completed
 sessions power the trace, the session you're on is the probing segment, and
 everything still unproven is a dashed ratsnest line. Weeks 4–5 run on the inner
-layer (the internal network), reached through a pivot via. See [`DESIGN.md`](DESIGN.md).
+layer (the internal network), reached through a pivot via. See [`DESIGN.md`](DESIGN.md). How each part of the outline maps to the site is in [`OUTLINE-MAP.md`](OUTLINE-MAP.md).
 
 ## Three student modes
 - **Course board** (`/`) — the board above, a probe readout for any session you

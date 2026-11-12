@@ -138,8 +138,24 @@ export const s13: Session = {
       ],
       notes: 'Precision about local vs domain privilege is a professionalism and reporting point. Students overclaim here constantly.',
     },
+
     {
-      id: 's13-chain', kind: 'diagram', tag: 'SYNTHESIS · 07',
+      id: 's13-objective', kind: 'evidence', tag: 'CONCEPT · 07',
+      title: 'Validate the privileged objective',
+      lead: 'Reaching the goal is not the end. Prove it with the minimum evidence, then stop.',
+      blocks: [
+        { type: 'steps', items: [
+          { label: 'Confirm the identity you hold', text: 'Show the account and its group memberships — for example `whoami /groups` — on the target.', tone: 'evidence' },
+          { label: 'Show the access', text: 'Read the designated synthetic objective, or list a resource only that privilege can reach.', tone: 'violet' },
+          { label: 'Capture and timestamp', text: 'The command, its output, the host and the time — enough for a reader to reproduce it.', tone: 'valid' },
+          { label: 'Stop and do no harm', text: 'No new accounts, no password changes, no persistence unless the scope explicitly allows it.', tone: 'caution' },
+        ] },
+        { type: 'callout', tone: 'valid', title: 'Evidence that holds up', md: 'A screenshot of a shell is weaker than the exact command, its output and the time. Pair each piece of evidence with the hop that made it possible.' },
+      ],
+      notes: 'The capstone grades this step: the designated objective, evidenced and then left alone.',
+    },
+    {
+      id: 's13-chain', kind: 'diagram', tag: 'SYNTHESIS · 08',
       title: 'The complete path — and where it breaks',
       lead: 'Step through the whole chain, then name the controls that would interrupt it.',
       blocks: [

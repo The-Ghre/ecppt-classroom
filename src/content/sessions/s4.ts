@@ -5,7 +5,7 @@ export const s4: Session = {
   dateISO: '2026-11-22', dateLabel: '22 Nov', durationHours: 3,
   topic: 'Understand the application before testing it',
   title: 'Web Application Mapping',
-  outcome: 'Produce an application map and prioritise likely input points.',
+  outcome: 'Produce an application map and prioritize likely input points.',
   summary: 'HTTP foundations, application mapping, content discovery, proxies, and reading scanners.',
   stages: ['access'], domains: ['web', 'access'],
   sources: [
@@ -23,7 +23,7 @@ export const s4: Session = {
         { type: 'figure', title: 'SESSION BRIEF', rows: [
           { k: 'OUTCOME', v: 'Produce an application map and prioritise likely input points.', tone: 'evidence' },
           { k: 'STAGE', v: 'Initial Access via the web — stage 02 of the attack chain', tone: 'attacker' },
-          { k: 'EXIT CHECK', v: 'An application map with likely input points and prioritised tests.', tone: 'valid' },
+          { k: 'EXIT CHECK', v: 'An application map with likely input points and prioritized tests.', tone: 'valid' },
         ] },
       ],
       notes: 'Set the frame: mapping is 60% of a good web test. We map together before anyone touches a scanner.',
@@ -150,7 +150,23 @@ export const s4: Session = {
       notes: 'Reinforce the course spine again on the web. A scanner "finding" is an observation until you reproduce it.',
     },
     {
-      id: 's4-prioritise', kind: 'evidence', tag: 'WORKED EXAMPLE · 07',
+      id: 's4-misleading', kind: 'concept', tag: 'CONCEPT · 07',
+      title: 'Misleading results',
+      lead: 'Status codes, redirects and error pages fool tools — and people — every day.',
+      blocks: [
+        { type: 'table', head: ['Signal', 'Why it misleads', 'Check'], rows: [
+          ['`200 OK` on every path', 'A custom error page answers 200 for missing content (a "soft 404")', 'Request a path that certainly does not exist and compare size and body'],
+          ['`301`/`302` redirect', 'A redirect to login can mean "exists but protected" or simply "not here"', 'Follow it, and compare with a known-missing path'],
+          ['`403 Forbidden`', 'The resource exists but is blocked — interesting, not a finding', 'Note it, and look for another route to the same resource'],
+          ['`500` server error', 'Your input broke something — a lead, not a vulnerability', 'Vary the input and look for a controllable difference'],
+          ['Scanner says "vulnerable"', 'A version or pattern match only', 'Reproduce the condition yourself before you report it'],
+        ] },
+        { type: 'callout', tone: 'evidence', title: 'Calibrate first', md: 'Before trusting a discovery run, capture the response to one path you know exists and one you know does not. Judge every later result against that baseline.' },
+      ],
+      notes: 'Show a soft-404 live: a scanner reports dozens of "found" paths, and one known-bad request explains all of them.',
+    },
+    {
+      id: 's4-prioritise', kind: 'evidence', tag: 'WORKED EXAMPLE · 08',
       title: 'From map to prioritised tests',
       lead: 'The map is built. Here is where you spend your time, and why.',
       blocks: [

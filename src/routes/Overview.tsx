@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { COURSE, EXAM_DOMAINS, GRADING, STAGES, FIVE_QUESTIONS } from '../content/course';
+import { COURSE, EXAM_DOMAINS, GRADING, STAGES, FIVE_QUESTIONS, WEEKS, COURSE_PURPOSE, COURSE_OUTCOMES, ENTRY_REQUIREMENTS } from '../content/course';
 import { SESSIONS } from '../content';
 import { Board } from '../components/Board';
 import { AttackChain } from '../diagrams/AttackChain';
@@ -69,6 +69,13 @@ export function Overview() {
       <section className="ov-board wrap" aria-labelledby="board-h">
         <h2 id="board-h" className="sr-only">The five-week course board</h2>
         <Board sessions={SESSIONS} completed={progress.completed} current={current} probe={probe} onProbe={setProbe} />
+        <ol className="wk-notes" aria-label="Weekly outcomes">
+          {WEEKS.map((w) => (
+            <li key={w.n} className="wk-note">
+              <span className="wk-note__n silk silk--copper">WK{w.n} outcome</span> {w.outcome}
+            </li>
+          ))}
+        </ol>
         <p className="ov-board__note dim">
           Sunday and Tuesday are theory chips; Wednesday is the lab header where you prove them.
           Your progress powers the trace and is saved on this device only — no account.
@@ -98,6 +105,29 @@ export function Overview() {
             </li>
           ))}
         </ol>
+      </section>
+
+      {/* ---- Course outcomes + entry requirements (from the outline) ---- */}
+      <section className="ov-sec wrap" aria-labelledby="outcomes-h">
+        <div className="ov-sec__hd">
+          <h2 id="outcomes-h" className="h-xl">By 16 December, you will be able to</h2>
+          <p className="dim">{COURSE_PURPOSE}</p>
+        </div>
+        <div className="spec">
+          <ol className="spec__list">
+            {COURSE_OUTCOMES.map((o, i) => (
+              <li key={i} className="spec__row">
+                <span className="spec__pin" aria-hidden>{i + 1}</span>
+                <span>{o}</span>
+              </li>
+            ))}
+          </ol>
+          <aside className="spec__entry" aria-labelledby="entry-h">
+            <h3 id="entry-h" className="spec__entry-h"><I.caution /> Before you start</h3>
+            <p>{ENTRY_REQUIREMENTS.split('. ')[0]}.</p>
+            <p className="dim">Expect a short preparatory exercise before the first class to identify any gaps.</p>
+          </aside>
+        </div>
       </section>
 
       {/* ---- Two tables, kept apart on purpose ---- */}

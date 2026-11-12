@@ -136,6 +136,23 @@
 .part--ic.is-done .part__state { color: var(--valid); }
 .part--ic.is-live .part__state { color: var(--signal); }
 
+/* weekly outcomes: silkscreen notes under the five courtyards */
+.wk-notes { list-style: none; margin: 18px 0 0; padding: 0 clamp(18px, 2.4vw, 30px); display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 46px; }
+.wk-note { color: var(--muted); font-size: 1rem; line-height: 1.5; padding-top: 10px; border-top: 1px dashed var(--silk-faint); }
+.wk-note__n { margin-right: 4px; }
+
+/* course outcomes: a datasheet feature list beside the entry requirements */
+.spec { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(260px, 1fr); gap: 24px; align-items: start; }
+.spec__list { list-style: none; margin: 0; padding: 4px 18px; background: var(--mask); border: 1px solid var(--line); border-radius: 12px; }
+.spec__row { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--line-soft); color: var(--ink-1); font-size: 1rem; }
+.spec__row:last-child { border-bottom: 0; }
+.spec__pin { width: 24px; height: 24px; display: grid; place-items: center; align-self: center; font-family: var(--mono); font-size: 0.75rem; color: var(--copper); border: 1.5px solid var(--copper-dim); border-radius: 50%; }
+.spec__entry { padding: 16px 18px; border: 1px dashed rgba(224, 180, 92, 0.45); border-radius: 12px; }
+.spec__entry-h { display: flex; align-items: center; gap: 9px; font-size: 1.05rem; margin-bottom: 8px; }
+.spec__entry-h svg { width: 17px; height: 17px; color: var(--caution); }
+.spec__entry p { margin: 0 0 8px; color: var(--ink-2); font-size: 0.95rem; }
+.spec__entry p:last-child { margin: 0; }
+
 /* ---- Sections below the board ---- */
 .ov-sec { margin-top: clamp(64px, 9vw, 104px); }
 .ov-sec__hd { max-width: 760px; margin-bottom: 28px; }
@@ -171,6 +188,7 @@
 
 /* ---- Responsive routing: the same router reroutes the bus ---- */
 @media (max-width: 1180px) {
+  .wk-notes { grid-template-columns: 1fr; gap: 10px; padding: 0; }
   .board__weeks { grid-template-columns: 1fr; gap: 34px; }
   .wk__parts { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; }
   .wk__hd { grid-template-columns: auto auto 1fr; }
@@ -178,6 +196,7 @@
   .wk__dates { order: 3; }
 }
 @media (max-width: 960px) {
+  .spec { grid-template-columns: 1fr; }
   .ov-top { grid-template-columns: 1fr; align-items: start; }
   .dtables { grid-template-columns: 1fr; }
   .tps { grid-template-columns: 1fr; gap: 0; }

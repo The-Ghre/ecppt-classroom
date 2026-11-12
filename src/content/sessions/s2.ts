@@ -207,6 +207,27 @@ export const s2: Session = {
       ],
       notes: 'Reinforce: the banner is identical, the outcome is not. Configuration is the deciding evidence.',
     },
+
+    {
+      id: 's2-review', kind: 'evidence', tag: 'REVIEW · 11',
+      title: 'Evidence and decision review',
+      lead: 'Before you move on, record what you tried, what it showed, and why you chose this path.',
+      blocks: [
+        { type: 'table', head: ['Test', 'Result', 'Conclusion'], rows: [
+          ['SMB null session on .15', 'Shares and two usernames listed', 'Lead — inspect the `backups` share next'],
+          ['Tomcat manager on .15, default credentials', 'Accepted; deploy permitted', 'Prerequisites met → selected path'],
+          ['Tomcat manager on .22', 'Manager restricted by source IP', 'Dead end — recorded so nobody retests it'],
+          ['Password spray, two passwords, all users', 'No valid logins; within the lockout policy', 'Negative result — still evidence'],
+        ] },
+        { type: 'callout', tone: 'evidence', title: 'Failed tests belong in the record', md: 'A failed test narrows the possibilities and protects your time. It also shows a reviewer that the path you chose was a decision backed by evidence, not luck.' },
+        { type: 'list', style: 'check', items: [
+          'Each entry names what you ran, when, against which host, and what it returned.',
+          'Each conclusion points to the evidence that supports it.',
+          'The selected path names its fallback.',
+        ] },
+      ],
+      notes: 'This closes the session the way the outline intends: the decision is justified on paper before anyone touches the lab.',
+    },
     {
       id: 's2-mistakes', kind: 'mistakes', tag: 'COMMON MISTAKES',
       title: 'How initial access goes wrong',

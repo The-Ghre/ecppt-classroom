@@ -188,7 +188,7 @@ export function Board({
             <span className="conn__pads" aria-hidden><i /><i /><i /></span>
             <span className="silk">J1 · Start</span>
           </span>
-          <span className="board__name silk silk--dim">CODED-ECPPT-01 · REV 26.11 · 15 parts · 184 slides</span>
+          <span className="board__name silk silk--dim">CODED-ECPPT-01 · REV 26.11 · {sessions.length} parts · {sessions.reduce((n, s) => n + s.slides.length, 0)} slides</span>
           <span className="board__count" aria-label={`${doneCount} of ${sessions.length} sessions completed`}>
             <span className="silk silk--dim">Signal</span>
             <Digits value={doneCount} /><span className="board__of">/{sessions.length}</span>

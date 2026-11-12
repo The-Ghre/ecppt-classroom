@@ -22,7 +22,7 @@ export const s11: Session = {
         { type: 'figure', title: 'SESSION BRIEF', rows: [
           { k: 'OUTCOME', v: 'Select a candidate AD attack path and explain the conditions required for it to work.', tone: 'evidence' },
           { k: 'STAGE', v: 'Active Directory — stage 05 of the attack chain', tone: 'violet' },
-          { k: 'EXIT CHECK', v: 'One candidate AD path with its prerequisites and a validation plan.', tone: 'valid' },
+          { k: 'EXIT CHECK', v: 'One candidate AD path with its prerequisites and validation plan.', tone: 'valid' },
         ] },
       ],
       notes: 'Theme: convert enumeration into a testable hypothesis. BloodHound finds paths; your job is to validate the conditions.',
@@ -98,8 +98,27 @@ export const s11: Session = {
       ],
       notes: 'This chaining is the heart of the session and the exit check. Make students write one path as a hypothesis.',
     },
+
     {
-      id: 's11-kerberos', kind: 'diagram', tag: 'CONCEPT · 04',
+      id: 's11-weak', kind: 'concept', tag: 'CONCEPT · 04',
+      title: 'Weak credentials and excessive access',
+      lead: 'Many domain paths need no exploit at all — only a weak password, or a permission granted too widely.',
+      blocks: [
+        { type: 'table', head: ['Weakness', 'What to look for', 'Why it matters'], rows: [
+          ['Weak or reused passwords', 'Accounts sharing a password, or following a season-and-year pattern', 'One guess can unlock several accounts'],
+          ['Secrets left in the directory', 'Passwords in account description fields, or in scripts and policy files on SYSVOL shares', 'Any authenticated user can read them'],
+          ['Excessive group membership', 'Users nested into privileged or local-admin groups they no longer need', 'Shortens the path to high-value targets'],
+          ['Over-broad object rights', 'Rights such as GenericAll, GenericWrite or WriteDACL held by low-privileged accounts', 'One account can reset another\'s password or change group membership'],
+        ] },
+        { type: 'callout', tone: 'caution', title: 'Test credentials within scope', md: 'Check the lockout policy before any password test, and audit only the accounts your scope designates. A locked-out user is an incident, not a finding.' },
+      ],
+      study: [
+        { type: 'prose', md: 'Object rights are the least visible of these and often the most powerful. BloodHound draws them as edges (for example, an account with GenericAll over a user), but each edge is still a hypothesis: confirm the right applies to the object you care about, and that exercising it is in scope, before you build a path on it.' },
+      ],
+      notes: 'Bridge from enumeration to Kerberos: roasting only pays off because of the first row — weak service-account passwords.',
+    },
+    {
+      id: 's11-kerberos', kind: 'diagram', tag: 'CONCEPT · 05',
       title: 'Kerberos: the normal flow first',
       lead: 'Understand how authentication is supposed to work before you abuse it.',
       blocks: [
@@ -108,7 +127,7 @@ export const s11: Session = {
       notes: 'Walk the interactive diagram step by step. Normal flow first; the weaknesses land harder once the flow is clear.',
     },
     {
-      id: 's11-roasting', kind: 'concept', tag: 'CONCEPT · 05',
+      id: 's11-roasting', kind: 'concept', tag: 'CONCEPT · 06',
       title: 'AS-REP roasting vs Kerberoasting',
       lead: 'Two attacks, two prerequisites, two different crackable blobs.',
       blocks: [
@@ -121,7 +140,7 @@ export const s11: Session = {
       notes: 'The prereq contrast (pre-auth disabled vs SPN present) is the examinable distinction. Both rely on weak passwords.',
     },
     {
-      id: 's11-audit', kind: 'demo', tag: 'DEMONSTRATE · 06',
+      id: 's11-audit', kind: 'demo', tag: 'DEMONSTRATE · 07',
       title: 'Offline auditing and what it proves',
       lead: 'Crack the blob offline — then ask whether the result is actually useful.',
       blocks: [
@@ -138,6 +157,21 @@ export const s11: Session = {
         { type: 'prose', md: 'Offline cracking is attractive because it is silent against the domain and immune to lockout. But a recovered credential is only useful if it grants access that advances your goal. Always close the loop: authenticate with it, enumerate what it can reach, and update your attack-path hypothesis. In the lab you will roast designated accounts only — never arbitrary production identities.' },
       ],
       notes: 'Insist on closing the loop: a cracked password must be tied back to access that matters. Only designated lab accounts.',
+    },
+    {
+      id: 's11-access', kind: 'concept', tag: 'CONCEPT · 08',
+      title: 'Access validation: does the credential matter?',
+      lead: 'A cracked password proves a weak password. Only testing it shows what it can reach.',
+      blocks: [
+        { type: 'steps', items: [
+          { label: 'Authenticate once, deliberately', text: 'Use the recovered credential against one in-scope service and record the result.', tone: 'evidence' },
+          { label: 'Map what it reaches', text: 'Which hosts accept it, which shares it can read, and where it is a local administrator.', tone: 'violet' },
+          { label: 'Compare with your hypothesis', text: 'Does this access advance the path you wrote down, or is it a dead end?', tone: 'cyan' },
+          { label: 'Record it either way', text: 'A credential that reaches nothing useful is still a finding — a weak password — with lower impact.', tone: 'valid' },
+        ] },
+        { type: 'callout', tone: 'caution', title: 'Stay within scope', md: 'Authenticate only to the hosts and services your scope permits, and only with the designated accounts.' },
+      ],
+      notes: 'Closes the loop the audit slide opens. The Wednesday lab asks for exactly this evidence.',
     },
     {
       id: 's11-reasoning', kind: 'concept', tag: 'THE METHOD',

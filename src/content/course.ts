@@ -23,8 +23,8 @@ export const COURSE = {
 
 export const WEEKS: Week[] = [
   { n: 1, title: 'Methodology, Reconnaissance & Initial Access', outcome: 'Turn discovery results into a justified testing plan and establish a documented foothold.', dateRange: '15–18 Nov' },
-  { n: 2, title: 'Web Application Penetration Testing', outcome: 'Map an application, validate a web vulnerability, and separate scanner output from demonstrated impact.', dateRange: '22–25 Nov' },
-  { n: 3, title: 'Privilege Escalation & Exploit Fundamentals', outcome: 'Identify a plausible local escalation path, validate its prerequisites, and explain basic exploit behaviour.', dateRange: '29 Nov–2 Dec' },
+  { n: 2, title: 'Web Application Penetration Testing', outcome: 'Map an application, validate a web vulnerability, and distinguish scanner output from demonstrated impact.', dateRange: '22–25 Nov' },
+  { n: 3, title: 'Privilege Escalation & Exploit Fundamentals', outcome: 'Identify a plausible local escalation path, validate its prerequisites, and explain basic exploit behavior.', dateRange: '29 Nov–2 Dec' },
   { n: 4, title: 'Pivoting & Active Directory Enumeration', outcome: 'Investigate an internal segment through an existing foothold and identify an evidenced AD attack path.', dateRange: '6–9 Dec' },
   { n: 5, title: 'AD Lateral Movement & Integrated Assessment', outcome: 'Connect individual findings into a complete, evidenced attack path and explain its business impact.', dateRange: '13–16 Dec' },
 ];
@@ -76,3 +76,20 @@ export const FIVE_QUESTIONS = [
   'What should we investigate next?',
   'What change would address the root cause?',
 ];
+
+/* Course purpose and entry requirements — verbatim from the outline. */
+export const COURSE_PURPOSE =
+  'Prepare students to assess a small network methodically: discover systems, identify entry points, validate vulnerabilities, escalate privileges, move between systems, assess Active Directory, and communicate findings.';
+
+export const COURSE_OUTCOMES = [
+  'Turn discovery results into a prioritized testing plan.',
+  'Validate an initial-access path through a service or web application.',
+  'Identify and demonstrate Linux and Windows privilege escalation.',
+  'Explain basic exploit behavior and adapt a supplied proof of concept.',
+  'Investigate an internal segment through an existing foothold.',
+  'Enumerate Active Directory and validate an identity-based attack path.',
+  'Produce reproducible findings with evidence, impact, and remediation.',
+];
+
+export const ENTRY_REQUIREMENTS =
+  'This accelerated course assumes familiarity with TCP/IP, common network services, basic Linux and Windows administration, and introductory penetration testing. Use a short preparatory exercise to identify gaps before the first class.';

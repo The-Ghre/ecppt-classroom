@@ -153,6 +153,52 @@ export const s7: Session = {
       ],
       notes: 'This triage table is the escalation equivalent of Session 01\'s prioritisation. Same discipline, new stage.',
     },
+
+    {
+      id: 's7-validate', kind: 'demo', tag: 'DEMONSTRATE · 07',
+      title: 'Manual validation: from flagged to proven',
+      lead: 'An enumeration script says "possible". You confirm it by hand and show the access level you reached.',
+      blocks: [
+        { type: 'steps', items: [
+          { label: 'Confirm the condition yourself', text: 'Re-check the flagged item directly: file permissions with `ls -l`, sudo rules with `sudo -l`, the cron entry and the script it runs.', tone: 'evidence' },
+          { label: 'Prove control with a harmless marker', text: 'Make the privileged process create something small and inert before you attempt anything larger.', tone: 'caution' },
+          { label: 'Show the new context', text: 'Capture identity before and after. The change in owner or `uid` is the evidence.', tone: 'valid' },
+          { label: 'Restore and record', text: 'Undo the change and log exactly what you altered and when.', tone: 'violet' },
+        ] },
+        { type: 'terminal', title: 'Before and after', lines: [
+          { text: 'id', kind: 'cmd' },
+          { text: 'uid=997(tomcat) gid=997(tomcat) groups=997(tomcat),4(adm)', kind: 'out' },
+          { text: '# after the scheduled job runs the modified script', kind: 'comment' },
+          { text: 'ls -l /tmp/proof', kind: 'cmd' },
+          { text: '-rw-r--r-- 1 root root 0 Nov 29 10:05 /tmp/proof', kind: 'out', tone: 'valid' },
+        ] },
+        { type: 'callout', tone: 'caution', title: 'Automated output is not evidence', md: 'Paste a script\'s flag into a report and you have reported a possibility. The proof is your own reproduction plus the before-and-after context.' },
+      ],
+      notes: 'A root-owned marker created by the scheduled job proves code execution as root without handing anyone a root shell in the shared lab. Remind students to remove it.',
+    },
+    {
+      id: 's7-restore', kind: 'concept', tag: 'CONCEPT · 08',
+      title: 'Remediation and restoration',
+      lead: 'Every escalation you prove ends with two notes: what fixes it, and what you put back.',
+      blocks: [
+        { type: 'compare', columns: [
+          { title: 'Root-cause fix', tone: 'valid', items: [
+            'Writable root script → owned and writable by root only',
+            'SUID binary that can run commands → remove the SUID bit if it is not needed',
+            'Over-broad sudo rule → limit it to the exact command and arguments required',
+            'Password in a config or history file → remove it and rotate the credential',
+          ] },
+          { title: 'Restore the lab', tone: 'caution', items: [
+            'Revert every file you modified (keep the original copy)',
+            'Delete the markers and payloads you created',
+            'Log the time and command of each change',
+            'Confirm the host still behaves normally',
+          ] },
+        ] },
+        { type: 'callout', tone: 'caution', title: 'In a real engagement', md: 'Clients expect systems back as you found them. Anything you could not remove goes in the report with its exact location, so they can clean it up.' },
+      ],
+      notes: 'Pair this with the reasoning slide: TP5 (root cause) is the left column; restoration is the professional habit on the right.',
+    },
     {
       id: 's7-reasoning', kind: 'concept', tag: 'THE METHOD',
       title: 'Five questions for your chosen path',

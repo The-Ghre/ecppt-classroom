@@ -3,7 +3,7 @@ import type { Session } from '../types';
 export const s8: Session = {
   id: 's8', number: 8, week: 3, kind: 'theory', day: 'Tuesday',
   dateISO: '2026-12-01', dateLabel: '1 Dec', durationHours: 3,
-  topic: 'Windows privilege escalation and exploit fundamentals',
+  topic: 'Windows privilege escalation and exploit development foundations',
   title: 'Windows Privesc & Exploit Foundations',
   outcome: 'Explain a Windows escalation opportunity and identify assumptions in a supplied exploit.',
   summary: 'Windows security context, PowerShell enumeration, and reading a proof of concept.',
@@ -25,7 +25,7 @@ export const s8: Session = {
           { k: 'OUTCOME', v: 'Explain a Windows escalation opportunity and identify the assumptions in a supplied exploit.', tone: 'evidence' },
           { k: 'STAGE', v: 'Privilege Escalation — stage 03, plus exploit-development foundations', tone: 'attacker' },
           { k: 'STRUCTURE', v: 'Half 1 — Windows privesc. Half 2 — exploit fundamentals.', tone: 'caution' },
-          { k: 'EXIT CHECK', v: 'Explain one Windows escalation opportunity and annotate an exploit\u2019s assumptions.', tone: 'valid' },
+          { k: 'EXIT CHECK', v: 'Explain one Windows escalation opportunity and annotate the exploit\u2019s assumptions.', tone: 'valid' },
         ] },
       ],
       notes: 'Flag the two-half structure. Keep a clear break between them. Exploit dev is conceptual — understanding, not weaponisation.',
@@ -103,6 +103,29 @@ export const s8: Session = {
         { type: 'callout', tone: 'caution', md: 'Compatibility matters: a credential or exploit only helps if the OS version and patch level match its prerequisites. Record the build number early.' },
       ],
       notes: 'Compatibility (build/patch level) is the natural bridge into the exploit half. Flag it here.',
+    },
+    {
+      id: 's8-compat', kind: 'concept', tag: 'HALF 1 · CONCEPT',
+      title: 'Credentials and compatibility',
+      lead: 'Two quieter routes: secrets Windows has already stored, and exploits that match the exact build.',
+      blocks: [
+        { type: 'compare', columns: [
+          { title: 'Stored credentials', tone: 'attacker', items: [
+            '`cmdkey /list` shows credentials saved for other targets',
+            'PowerShell history — path from `(Get-PSReadLineOption).HistorySavePath` — can hold typed passwords',
+            'Configuration and unattended-setup files may contain admin passwords',
+            'Test any credential you find for reuse, within scope',
+          ] },
+          { title: 'Compatibility', tone: 'caution', items: [
+            'Record the OS edition, build and installed patches (`systeminfo`)',
+            'Kernel and service exploits apply to specific builds only',
+            'The payload architecture (x86 or x64) must match the target',
+            'A mismatch fails silently — or crashes the host',
+          ] },
+        ] },
+        { type: 'callout', tone: 'evidence', title: 'Compatibility is evidence too', md: 'Before choosing an exploit, write down the build and patch level you observed. That record is what justifies — or rules out — the exploit, and it is the bridge to the second half of this session.' },
+      ],
+      notes: 'This is the outline\'s "credentials and compatibility" item. The build number recorded here is reused when students annotate the PoC\'s assumptions.',
     },
     {
       id: 's8-half2', kind: 'concept', tag: 'HALF 2 · EXPLOIT FOUNDATIONS',

@@ -5,7 +5,7 @@ export const s5: Session = {
   dateISO: '2026-11-24', dateLabel: '24 Nov', durationHours: 3,
   topic: 'Validate vulnerabilities and explain impact',
   title: 'Web Vulnerabilities & Impact',
-  outcome: 'Explain why an observed response supports — or fails to support — a vulnerability claim.',
+  outcome: 'Explain why an observed response supports—or fails to support—a vulnerability claim.',
   summary: 'SQL injection, command injection, XSS, auth weaknesses, file issues, and evidence of impact.',
   stages: ['access'], domains: ['web', 'exploit'],
   sources: [
@@ -22,7 +22,7 @@ export const s5: Session = {
         { type: 'figure', title: 'SESSION BRIEF', rows: [
           { k: 'OUTCOME', v: 'Explain why a response does — or does not — support a vulnerability claim.', tone: 'evidence' },
           { k: 'STAGE', v: 'Initial Access via the web — stage 02', tone: 'attacker' },
-          { k: 'EXIT CHECK', v: 'Interpret a suspicious response and state what further evidence is needed.', tone: 'valid' },
+          { k: 'EXIT CHECK', v: 'Interpret a suspicious response and state what additional evidence is needed.', tone: 'valid' },
         ] },
       ],
       notes: 'Theme: validation and impact. We will demonstrate manual validation first, then show where automation helps.',
@@ -111,8 +111,28 @@ export const s5: Session = {
       ],
       notes: 'IDOR is often the easiest high-impact finding. Tie back to roles from the mapping session.',
     },
+
     {
-      id: 's5-files', kind: 'concept', tag: 'VULN CLASS · 05',
+      id: 's5-components', kind: 'concept', tag: 'VULN CLASS · 05',
+      title: 'Components and configuration',
+      lead: 'Not every web weakness is in the code. Some ship in the components and settings around it.',
+      blocks: [
+        { type: 'table', head: ['Weakness', 'What you observe', 'How you validate it'], rows: [
+          ['Outdated component', 'A plugin or framework version that a public advisory covers', 'Confirm the version from more than one source, then test the exact condition the advisory describes'],
+          ['Exposed settings', 'Directory listing, verbose stack traces, a debug mode left on', 'Request the resource and capture what it reveals'],
+          ['Exposed files', '`/.git/` or `/backup.bak` returns content', 'Retrieve only what proves the exposure, and check it for secrets'],
+          ['Default or embedded credentials', 'Vendor defaults on an admin panel; a key inside a JavaScript bundle', 'One controlled login or one scoped call — no further use'],
+        ] },
+        { type: 'callout', tone: 'caution', title: 'A version string is an observation', md: 'Banners, meta tags and file names can be stale, back-ported, or deliberately misleading. A matched advisory is a lead until you have tested the condition it describes against this target.' },
+      ],
+      study: [
+        { type: 'prose', md: 'Component and configuration findings are often the quickest wins in a web test, and the easiest to overstate. For an outdated component, the evidence is not the version number alone: it is the version confirmed by more than one signal (a changelog, a static file hash, a response header) plus a test of the specific vulnerable behaviour. For exposed settings and files, capture the minimum that proves the exposure — the directory listing, the first lines of the repository config — and never use a discovered secret beyond showing that it is live and in scope.' },
+        { type: 'prose', md: 'Remediation follows the cause: upgrade or remove the component and track versions going forward; turn off debug and listing in the production configuration; remove stray files from the web root; rotate any credential that was exposed, because removing it from the page does not make it secret again.' },
+      ],
+      notes: 'Connect back to Session 04: content discovery and technology identification surface most of these. Today we turn those leads into validated findings or dismiss them.',
+    },
+    {
+      id: 's5-files', kind: 'concept', tag: 'VULN CLASS · 06',
       title: 'File upload & file inclusion',
       lead: 'Where web vulnerabilities most often become a shell.',
       blocks: [
@@ -126,7 +146,7 @@ export const s5: Session = {
       notes: 'This is the bridge from web to initial access. Keep the payload minimal and the evidence clean.',
     },
     {
-      id: 's5-impact', kind: 'concept', tag: 'CONCEPT · 06',
+      id: 's5-impact', kind: 'concept', tag: 'CONCEPT · 07',
       title: 'Evidence of impact',
       lead: 'The finding is not the payload — it is what you demonstrably could do, shown with the least mess.',
       blocks: [
@@ -140,8 +160,25 @@ export const s5: Session = {
       ],
       notes: 'Model minimum-evidence impact. This reasoning block is the exact shape of a good report finding.',
     },
+
     {
-      id: 's5-auto', kind: 'concept', tag: 'TOOLING · 07',
+      id: 's5-remediation', kind: 'concept', tag: 'CONCEPT · 08',
+      title: 'Root-cause remediation, and how to retest it',
+      lead: 'A finding is finished when the reader knows what to change and how to prove the change worked.',
+      blocks: [
+        { type: 'table', head: ['Finding', 'Root-cause fix', 'Retest'], rows: [
+          ['SQL injection', 'Parameterised queries for every query that takes input', 'Replay the true/false pair — the responses no longer differ'],
+          ['Command injection', 'Avoid shell calls; use safe APIs or a strict allow-list', 'Replay the out-of-band probe — no callback arrives'],
+          ['Cross-site scripting', 'Context-aware output encoding; a Content Security Policy as defence in depth', 'Replay the payload — it renders as text'],
+          ['File upload', 'Allow-list types, store outside the web root, never execute uploads', 'Upload the benign test file — it cannot be reached or run'],
+          ['Outdated component', 'Upgrade or remove it, and track versions', 'Confirm the fixed version and that the advisory condition no longer holds'],
+        ] },
+        { type: 'callout', tone: 'valid', title: 'Fix the cause, not the payload', md: 'Blocking the exact string you used — a filter for one quote character, say — is not remediation; a different payload reaches the same flaw. Name the cause, then retest with your original evidence **and** a variant.' },
+      ],
+      notes: 'This is the "root-cause remediation" item from the outline. Every finding students submit on Wednesday needs a row like these.',
+    },
+    {
+      id: 's5-auto', kind: 'concept', tag: 'TOOLING · 09',
       title: 'Where automation earns its place',
       lead: 'Manual validation first; automation to extend what you have already proven.',
       blocks: [
